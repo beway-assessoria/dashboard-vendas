@@ -202,6 +202,7 @@ footer{border-top:1px solid var(--border);padding-top:14px;display:flex;justify-
   </div>
 
   <div class="kpi-grid" id="kpi-grid"></div>
+  <div class="kpi-grid" id="kpi-grid-extra" style="margin-bottom:18px"></div>
 
   <div class="charts-row">
     <div class="chart-card" style="animation-delay:.3s">
@@ -439,24 +440,13 @@ function renderKPIs() {
     { label:'Total Pedidos',   cls:'cw', val:fN(get('total_pedidos')),   sub:'no período' },
   ];
 
-  const extraEl = document.createElement('div');
-  extraEl.className = 'kpi-grid';
-  extraEl.style.marginBottom = '18px';
-  extraEl.innerHTML = extraKpis.map((k,i) =>
+  document.getElementById('kpi-grid-extra').innerHTML = extraKpis.map((k,i) =>
     `<div class="kpi ${k.cls}" style="animation-delay:${0.25+i*.05}s">
       <div class="kpi-label">${k.label}</div>
       <div class="kpi-val ${k.cls}">${k.val}</div>
       <div class="kpi-sub">${k.sub}</div>
     </div>`
   ).join('');
-
-  const grid = document.getElementById('kpi-grid');
-  if (grid.nextSibling?.classList?.contains('kpi-grid-extra')) {
-    grid.nextSibling.replaceWith(extraEl);
-  } else {
-    extraEl.classList.add('kpi-grid-extra');
-    grid.after(extraEl);
-  }
 }
 
 function diffBadge(real, meta, label) {
