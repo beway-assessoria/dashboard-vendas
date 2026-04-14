@@ -7,163 +7,167 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-
   :root {
-    --green: #1a9e6e;
-    --green-light: #e6f7f1;
-    --green-mid: #0f6e4f;
-    --amber: #d97706;
-    --amber-light: #fef3c7;
-    --blue: #2563eb;
-    --blue-light: #eff6ff;
-    --red: #dc2626;
-    --red-light: #fef2f2;
-    --gray-50: #f9fafb;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-400: #9ca3af;
-    --gray-600: #4b5563;
-    --gray-800: #1f2937;
-    --gray-900: #111827;
-    --radius: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+    --green:#1a9e6e; --green-light:#e6f7f1; --green-mid:#0f6e4f;
+    --amber:#d97706; --amber-light:#fef3c7;
+    --red:#dc2626; --red-light:#fef2f2; --red-mid:#991b1b;
+    --blue:#2563eb; --blue-light:#eff6ff;
+    --purple:#7c3aed;
+    --g50:#f9fafb; --g100:#f3f4f6; --g200:#e5e7eb;
+    --g400:#9ca3af; --g600:#4b5563; --g800:#1f2937; --g900:#111827;
+    --r:12px; --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
   }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:#f0f2f5;color:var(--g900);font-size:14px;line-height:1.5}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: #f0f2f5; color: var(--gray-900); font-size: 14px; line-height: 1.5; }
+  .header{background:#fff;border-bottom:1px solid var(--g200);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo-badge{width:36px;height:36px;background:var(--g900);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;letter-spacing:.5px}
+  .logo h1{font-size:15px;font-weight:600}
+  .logo p{font-size:11px;color:var(--g400)}
+  .header-right{display:flex;align-items:center;gap:12px}
+  .upd{font-size:11px;color:var(--g400);font-family:'DM Mono',monospace}
+  .btn{background:var(--g900);color:#fff;border:none;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-  /* HEADER */
-  .header { background: #fff; border-bottom: 1px solid var(--gray-200); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
-  .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-badge { width: 36px; height: 36px; background: var(--gray-900); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 13px; letter-spacing: .5px; }
-  .logo-text h1 { font-size: 15px; font-weight: 600; color: var(--gray-900); }
-  .logo-text p { font-size: 11px; color: var(--gray-400); font-weight: 400; }
-  .header-right { display: flex; align-items: center; gap: 16px; }
-  .update-time { font-size: 11px; color: var(--gray-400); font-family: 'DM Mono', monospace; }
-  .btn-update { background: var(--gray-900); color: #fff; border: none; padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .nav{background:#fff;border-bottom:1px solid var(--g200);padding:0 32px;display:flex;align-items:center;gap:4px;overflow-x:auto;height:48px}
+  .nb{border:none;background:none;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;color:var(--g600);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s}
+  .nb:hover{background:var(--g100)}
+  .nb.active{background:var(--g900);color:#fff}
+  .sep{width:1px;height:24px;background:var(--g200);margin:0 8px;flex-shrink:0}
 
-  /* NAV */
-  .nav { background: #fff; border-bottom: 1px solid var(--gray-200); padding: 0 32px; display: flex; align-items: center; gap: 4px; overflow-x: auto; height: 48px; }
-  .nav-btn { border: none; background: none; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray-600); font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: all .15s; }
-  .nav-btn:hover { background: var(--gray-100); }
-  .nav-btn.active { background: var(--gray-900); color: #fff; }
-  .nav-sep { width: 1px; height: 24px; background: var(--gray-200); margin: 0 8px; flex-shrink: 0; }
+  .main{padding:24px 32px;max-width:1400px;margin:0 auto}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .g21{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+  .g12{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:16px}
 
-  /* LAYOUT */
-  .main { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-bottom: 16px; }
+  .card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);padding:20px}
+  .card-lbl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--g400);margin-bottom:8px}
+  .card-val{font-size:28px;font-weight:600;color:var(--g900);letter-spacing:-.5px;line-height:1;margin-bottom:6px}
+  .card-val.g{color:var(--green)}.card-val.a{color:var(--amber)}.card-val.b{color:var(--blue)}.card-val.r{color:var(--red)}
+  .card-sub{font-size:12px;color:var(--g400)}
+  .card-sub strong{color:var(--g600)}
+  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:8px}
+  .badge.up{background:var(--green-light);color:var(--green-mid)}
+  .badge.dn{background:var(--red-light);color:var(--red-mid)}
+  .badge.nt{background:var(--g100);color:var(--g600)}
+  .badge.am{background:var(--amber-light);color:var(--amber)}
+  .bt-g{border-top:3px solid var(--green)}
+  .bt-a{border-top:3px solid var(--amber)}
+  .bt-b{border-top:3px solid var(--blue)}
+  .bt-p{border-top:3px solid var(--purple)}
+  .bt-r{border-top:3px solid var(--red)}
 
-  /* CARDS */
-  .card { background: #fff; border-radius: var(--radius); border: 1px solid var(--gray-200); box-shadow: var(--shadow); padding: 20px; }
-  .card-label { font-size: 10px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px; }
-  .card-value { font-size: 28px; font-weight: 600; color: var(--gray-900); letter-spacing: -.5px; line-height: 1; margin-bottom: 6px; }
-  .card-value.green { color: var(--green); }
-  .card-value.amber { color: var(--amber); }
-  .card-value.blue { color: var(--blue); }
-  .card-sub { font-size: 12px; color: var(--gray-400); }
-  .card-sub strong { color: var(--gray-600); }
-  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 8px; }
-  .badge.up { background: var(--green-light); color: var(--green-mid); }
-  .badge.down { background: var(--red-light); color: var(--red); }
-  .badge.neutral { background: var(--gray-100); color: var(--gray-600); }
-  .card-border-green { border-top: 3px solid var(--green); }
-  .card-border-amber { border-top: 3px solid var(--amber); }
-  .card-border-blue { border-top: 3px solid var(--blue); }
-  .card-border-purple { border-top: 3px solid #7c3aed; }
+  .cc{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);padding:20px}
+  .ct{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--g400);margin-bottom:4px}
+  .cs{font-size:12px;color:var(--g400);margin-bottom:16px}
+  .leg{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+  .li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--g600)}
+  .ld{width:10px;height:10px;border-radius:50%}
 
-  /* CHART CARDS */
-  .chart-card { background: #fff; border-radius: var(--radius); border: 1px solid var(--gray-200); box-shadow: var(--shadow); padding: 20px; }
-  .chart-title { font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px; }
-  .chart-subtitle { font-size: 12px; color: var(--gray-400); margin-bottom: 16px; }
-  .chart-wrap { position: relative; }
-  .legend { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-600); }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .trim-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);padding:20px}
+  .tl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--g400);margin-bottom:6px}
+  .tv{font-size:22px;font-weight:600;letter-spacing:-.5px;color:var(--g900)}
+  .tbar{height:4px;background:var(--g100);border-radius:4px;margin:10px 0 6px;overflow:hidden}
+  .tbf{height:100%;border-radius:4px}
+  .tm{font-size:11px;color:var(--g400)}
 
-  /* TRIMESTRES */
-  .trim-card { background: #fff; border-radius: var(--radius); border: 1px solid var(--gray-200); box-shadow: var(--shadow); padding: 20px; }
-  .trim-label { font-size: 10px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 6px; }
-  .trim-value { font-size: 22px; font-weight: 600; letter-spacing: -.5px; color: var(--gray-900); }
-  .trim-bar { height: 4px; background: var(--gray-100); border-radius: 4px; margin: 10px 0 6px; overflow: hidden; }
-  .trim-bar-fill { height: 100%; border-radius: 4px; transition: width .5s; }
-  .trim-meta { font-size: 11px; color: var(--gray-400); }
+  .abc-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--g100)}
+  .abc-row:last-child{border-bottom:none}
+  .abl{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+  .al{background:var(--green-light);color:var(--green-mid)}
+  .ab{background:var(--blue-light);color:var(--blue)}
+  .ac{background:var(--amber-light);color:var(--amber)}
+  .ain{flex:1}.an{font-size:13px;font-weight:500;color:var(--g800)}.ad{font-size:11px;color:var(--g400)}
+  .ap{font-size:18px;font-weight:700}
+  .ap.a{color:var(--green)}.ap.b{color:var(--blue)}.ap.c{color:var(--amber)}
 
-  /* CURVA ABC */
-  .abc-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
-  .abc-row:last-child { border-bottom: none; }
-  .abc-letter { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
-  .abc-a { background: var(--green-light); color: var(--green-mid); }
-  .abc-b { background: var(--blue-light); color: var(--blue); }
-  .abc-c { background: var(--amber-light); color: var(--amber); }
-  .abc-info { flex: 1; }
-  .abc-name { font-size: 13px; font-weight: 500; color: var(--gray-800); }
-  .abc-detail { font-size: 11px; color: var(--gray-400); }
-  .abc-pct { font-size: 18px; font-weight: 700; }
-  .abc-pct.a { color: var(--green); }
-  .abc-pct.b { color: var(--blue); }
-  .abc-pct.c { color: var(--amber); }
+  .er{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .en{font-size:12px;font-weight:500;color:var(--g700);width:80px;flex-shrink:0}
+  .ebw{flex:1;height:8px;background:var(--g100);border-radius:4px;overflow:hidden}
+  .ebf{height:100%;border-radius:4px;background:var(--green)}
+  .ev{font-size:11px;font-family:'DM Mono',monospace;color:var(--g600);width:64px;text-align:right}
+  .ec{font-size:10px;color:var(--g400);width:40px;text-align:right}
 
-  /* ESTADO BARS */
-  .estado-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .estado-nome { font-size: 12px; font-weight: 500; color: var(--gray-700); width: 80px; flex-shrink: 0; }
-  .estado-bar-wrap { flex: 1; height: 8px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
-  .estado-bar-fill { height: 100%; border-radius: 4px; background: var(--green); }
-  .estado-valor { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--gray-600); width: 64px; text-align: right; }
-  .estado-cli { font-size: 10px; color: var(--gray-400); width: 40px; text-align: right; }
+  .pr{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--g100)}
+  .pr:last-child{border-bottom:none}
+  .prk{font-size:11px;font-family:'DM Mono',monospace;color:var(--g400);width:20px;flex-shrink:0}
+  .pn{font-size:12px;font-weight:500;color:var(--g800);flex:1;line-height:1.3}
+  .pbw{width:80px;height:6px;background:var(--g100);border-radius:4px;overflow:hidden;flex-shrink:0}
+  .pbf{height:100%;border-radius:4px;background:var(--green)}
+  .pv{font-size:11px;font-family:'DM Mono',monospace;color:var(--g600);width:60px;text-align:right;flex-shrink:0}
 
-  /* PRODUTOS */
-  .produto-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--gray-100); }
-  .produto-row:last-child { border-bottom: none; }
-  .produto-rank { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--gray-400); width: 20px; flex-shrink: 0; }
-  .produto-nome { font-size: 12px; font-weight: 500; color: var(--gray-800); flex: 1; line-height: 1.3; }
-  .produto-bar-wrap { width: 80px; height: 6px; background: var(--gray-100); border-radius: 4px; overflow: hidden; flex-shrink: 0; }
-  .produto-bar-fill { height: 100%; border-radius: 4px; background: var(--green); }
-  .produto-valor { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--gray-600); width: 60px; text-align: right; flex-shrink: 0; }
+  .fr{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .fi{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .fin{flex:1}
+  .fn{font-size:12px;font-weight:500;color:var(--g800)}
+  .fbw{width:100%;height:5px;background:var(--g100);border-radius:4px;margin-top:4px;overflow:hidden}
+  .fbf{height:100%;border-radius:4px}
+  .fq{font-size:12px;font-weight:600;color:var(--g700);width:30px;text-align:right;flex-shrink:0}
+  .fv{font-size:11px;font-family:'DM Mono',monospace;color:var(--g400);width:64px;text-align:right;flex-shrink:0}
 
-  /* FONTES */
-  .fonte-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-  .fonte-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-  .fonte-info { flex: 1; }
-  .fonte-nome { font-size: 12px; font-weight: 500; color: var(--gray-800); }
-  .fonte-bar-wrap { width: 100%; height: 5px; background: var(--gray-100); border-radius: 4px; margin-top: 4px; overflow: hidden; }
-  .fonte-bar-fill { height: 100%; border-radius: 4px; }
-  .fonte-qtd { font-size: 12px; font-weight: 600; color: var(--gray-700); width: 30px; text-align: right; flex-shrink: 0; }
-  .fonte-valor { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--gray-400); width: 64px; text-align: right; flex-shrink: 0; }
+  .sec{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--g400);margin:24px 0 12px}
 
-  /* SECTION TITLE */
-  .section-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); margin: 24px 0 12px; }
+  .dw{position:relative;width:160px;height:160px;margin:0 auto}
+  .dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+  .dp{font-size:26px;font-weight:700;color:var(--g900);line-height:1}
+  .dl{font-size:10px;color:var(--g400);margin-top:2px}
 
-  /* DONUT CENTER */
-  .donut-wrap { position: relative; width: 160px; height: 160px; margin: 0 auto; }
-  .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-  .donut-pct { font-size: 26px; font-weight: 700; color: var(--gray-900); line-height: 1; }
-  .donut-label { font-size: 10px; color: var(--gray-400); margin-top: 2px; }
+  .ib{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:var(--r);padding:20px;color:#fff}
+  .it{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#64748b;margin-bottom:16px;font-weight:600}
+  .ii{display:flex;gap:10px;margin-bottom:14px}
+  .ii:last-child{margin-bottom:0}
+  .idot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0}
+  .itx{font-size:12px;color:#cbd5e1;line-height:1.6}
+  .itx strong{color:#f1f5f9}
 
-  /* INSIGHTS BOX */
-  .insight-box { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: var(--radius); padding: 20px; color: #fff; }
-  .insight-title { font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: #64748b; margin-bottom: 16px; font-weight: 600; }
-  .insight-item { display: flex; gap: 10px; margin-bottom: 14px; }
-  .insight-item:last-child { margin-bottom: 0; }
-  .insight-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
-  .insight-text { font-size: 12px; color: #cbd5e1; line-height: 1.6; }
-  .insight-text strong { color: #f1f5f9; }
+  /* ── RADAR DE RECOMPRA ── */
+  .radar-wrap{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+  .radar-head{padding:20px 20px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .radar-head-left h2{font-size:14px;font-weight:600;color:var(--g900);margin-bottom:2px}
+  .radar-head-left p{font-size:12px;color:var(--g400)}
+  .radar-stats{display:flex;gap:16px;flex-wrap:wrap}
+  .rstat{text-align:center;padding:10px 16px;border-radius:8px;min-width:90px}
+  .rstat-n{font-size:22px;font-weight:700;line-height:1}
+  .rstat-l{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-top:4px}
+  .rstat.g{background:var(--green-light)}.rstat.g .rstat-n{color:var(--green)}.rstat.g .rstat-l{color:var(--green-mid)}
+  .rstat.a{background:var(--amber-light)}.rstat.a .rstat-n{color:var(--amber)}.rstat.a .rstat-l{color:#92400e}
+  .rstat.r{background:var(--red-light)}.rstat.r .rstat-n{color:var(--red)}.rstat.r .rstat-l{color:var(--red-mid)}
+  .rstat.media{background:var(--g100)}.rstat.media .rstat-n{color:var(--g800)}.rstat.media .rstat-l{color:var(--g600)}
 
-  /* RESPONSIVE */
-  @media (max-width: 1100px) {
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: repeat(2, 1fr); }
-    .grid-2-1, .grid-1-2 { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 700px) {
-    .main { padding: 16px; }
-    .header { padding: 0 16px; }
-    .nav { padding: 0 16px; }
-    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
-  }
+  .radar-tabs{display:flex;border-bottom:1px solid var(--g200);padding:0 20px}
+  .rtab{border:none;background:none;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;color:var(--g400);border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;transition:all .15s}
+  .rtab:hover{color:var(--g600)}
+  .rtab.active{color:var(--g900);border-bottom-color:var(--g900)}
+  .rtab .badge-sm{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:600}
+  .rtab.rt-g .badge-sm{background:var(--green-light);color:var(--green-mid)}
+  .rtab.rt-a .badge-sm{background:var(--amber-light);color:#92400e}
+  .rtab.rt-r .badge-sm{background:var(--red-light);color:var(--red-mid)}
+
+  .radar-body{padding:0}
+  .radar-panel{display:none}.radar-panel.active{display:block}
+  .radar-table{width:100%;border-collapse:collapse}
+  .radar-table th{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--g400);padding:10px 20px;text-align:left;border-bottom:1px solid var(--g100);white-space:nowrap}
+  .radar-table td{padding:12px 20px;border-bottom:1px solid var(--g100);font-size:13px;color:var(--g800);vertical-align:middle}
+  .radar-table tr:last-child td{border-bottom:none}
+  .radar-table tr:hover td{background:var(--g50)}
+  .cli-name{font-weight:500;color:var(--g900);max-width:200px}
+  .cli-name small{display:block;font-size:11px;color:var(--g400);font-weight:400}
+  .chip{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+  .chip.g{background:var(--green-light);color:var(--green-mid)}
+  .chip.a{background:var(--amber-light);color:#92400e}
+  .chip.r{background:var(--red-light);color:var(--red-mid)}
+  .progress-cell{width:120px}
+  .prog-bar{height:6px;background:var(--g100);border-radius:3px;overflow:hidden;margin-top:4px}
+  .prog-fill{height:100%;border-radius:3px}
+  .mono{font-family:'DM Mono',monospace;font-size:12px}
+
+  .dist-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:12px 0}
+  .dist-seg{height:100%;transition:width .5s}
+
+  @media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.g21,.g12{grid-template-columns:1fr}.radar-stats{justify-content:center}}
+  @media(max-width:700px){.main{padding:16px}.header,.nav{padding:0 16px}.g4,.g3,.g2{grid-template-columns:1fr}.radar-head{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -171,431 +175,515 @@
 <div class="header">
   <div class="logo">
     <div class="logo-badge">IN</div>
-    <div class="logo-text">
+    <div>
       <h1>INDIVÍDUO</h1>
       <p>Dashboard Comercial 2026</p>
     </div>
   </div>
   <div class="header-right">
-    <span class="update-time" id="updateTime">Atualizado 14/04/2026, 21:00</span>
-    <button class="btn-update" onclick="location.reload()">↺ Atualizar</button>
+    <span class="upd" id="upd">Atualizado 14/04/2026, 21:00</span>
+    <button class="btn" onclick="location.reload()">↺ Atualizar</button>
   </div>
 </div>
 
 <div class="nav">
-  <button class="nav-btn active" onclick="setMes(1,this)">Jan</button>
-  <button class="nav-btn" onclick="setMes(2,this)">Fev</button>
-  <button class="nav-btn" onclick="setMes(3,this)">Mar</button>
-  <button class="nav-btn" onclick="setMes(4,this)">Abr</button>
-  <button class="nav-btn" onclick="setMes(5,this)">Mai</button>
-  <button class="nav-btn" onclick="setMes(6,this)">Jun</button>
-  <button class="nav-btn" onclick="setMes(7,this)">Jul</button>
-  <button class="nav-btn" onclick="setMes(8,this)">Ago</button>
-  <button class="nav-btn" onclick="setMes(9,this)">Set</button>
-  <button class="nav-btn" onclick="setMes(10,this)">Out</button>
-  <button class="nav-btn" onclick="setMes(11,this)">Nov</button>
-  <button class="nav-btn" onclick="setMes(12,this)">Dez</button>
-  <div class="nav-sep"></div>
-  <button class="nav-btn" onclick="setMes('T1',this)">T1</button>
-  <button class="nav-btn" onclick="setMes('T2',this)">T2</button>
-  <button class="nav-btn" onclick="setMes('T3',this)">T3</button>
-  <button class="nav-btn" onclick="setMes('T4',this)">T4</button>
-  <button class="nav-btn" onclick="setMes('ano',this)">Ano</button>
+  <button class="nb active" onclick="setM(1,this)">Jan</button>
+  <button class="nb" onclick="setM(2,this)">Fev</button>
+  <button class="nb" onclick="setM(3,this)">Mar</button>
+  <button class="nb" onclick="setM(4,this)">Abr</button>
+  <button class="nb" onclick="setM(5,this)">Mai</button>
+  <button class="nb" onclick="setM(6,this)">Jun</button>
+  <button class="nb" onclick="setM(7,this)">Jul</button>
+  <button class="nb" onclick="setM(8,this)">Ago</button>
+  <button class="nb" onclick="setM(9,this)">Set</button>
+  <button class="nb" onclick="setM(10,this)">Out</button>
+  <button class="nb" onclick="setM(11,this)">Nov</button>
+  <button class="nb" onclick="setM(12,this)">Dez</button>
+  <div class="sep"></div>
+  <button class="nb" onclick="setM('T1',this)">T1</button>
+  <button class="nb" onclick="setM('T2',this)">T2</button>
+  <button class="nb" onclick="setM('T3',this)">T3</button>
+  <button class="nb" onclick="setM('T4',this)">T4</button>
+  <button class="nb" onclick="setM('ano',this)">Ano</button>
 </div>
 
 <div class="main">
 
-  <!-- KPI LINHA 1 -->
-  <div class="grid-4">
-    <div class="card card-border-green">
-      <div class="card-label">Realizado</div>
-      <div class="badge up" id="badgeCrescimento">▲ +32,4%</div>
-      <div class="card-value green" id="kvRealizado">R$360K</div>
+  <!-- KPI ROW 1 -->
+  <div class="g4">
+    <div class="card bt-g">
+      <div class="card-lbl">Realizado</div>
+      <div class="badge up" id="bCresc">▲ +32,4%</div>
+      <div class="card-val g" id="kvReal">R$360K</div>
       <div class="card-sub">Meta: <strong id="kvMeta">R$320K</strong></div>
     </div>
-    <div class="card card-border-amber">
-      <div class="card-label">Crescimento vs 2025</div>
-      <div class="badge up" id="badgeCresc2">▲ Acima</div>
-      <div class="card-value amber" id="kvCrescimento">+32,4%</div>
-      <div class="card-sub">2025: <strong id="kv2025">R$272K</strong></div>
+    <div class="card bt-a">
+      <div class="card-lbl">Crescimento vs 2025</div>
+      <div class="badge up" id="bCresc2">▲ Acima</div>
+      <div class="card-val a" id="kvCr">+32,4%</div>
+      <div class="card-sub">2025: <strong id="kv25">R$272K</strong></div>
     </div>
-    <div class="card card-border-amber">
-      <div class="card-label">Ticket médio</div>
-      <div class="badge neutral">por pedido</div>
-      <div class="card-value amber" id="kvTicket">R$1.482</div>
-      <div class="card-sub" id="kvPedidos">243 pedidos no período</div>
+    <div class="card bt-a">
+      <div class="card-lbl">Ticket médio</div>
+      <div class="badge nt">por pedido</div>
+      <div class="card-val a" id="kvTk">R$1.482</div>
+      <div class="card-sub" id="kvPed">243 pedidos no período</div>
     </div>
-    <div class="card card-border-purple">
-      <div class="card-label">Meta anual YTD</div>
-      <div class="badge neutral">do ano</div>
-      <div class="card-value" id="kvMetaYTD">17,2%</div>
+    <div class="card bt-p">
+      <div class="card-lbl">Meta anual YTD</div>
+      <div class="badge nt">do ano</div>
+      <div class="card-val" id="kvYTD">17,2%</div>
       <div class="card-sub">YTD: <strong>R$987K</strong> de R$5,74M</div>
     </div>
   </div>
 
-  <!-- KPI LINHA 2 -->
-  <div class="grid-4">
+  <!-- KPI ROW 2 -->
+  <div class="g4">
     <div class="card">
-      <div class="card-label">Total Leads</div>
-      <div class="card-value">22.718</div>
+      <div class="card-lbl">Total Leads</div>
+      <div class="card-val">22.718</div>
       <div class="card-sub">no CRM</div>
     </div>
     <div class="card">
-      <div class="card-label">Clientes ativos</div>
-      <div class="card-value blue">1.482</div>
+      <div class="card-lbl">Clientes ativos</div>
+      <div class="card-val b">1.482</div>
       <div class="card-sub">Curva A e 60D+</div>
     </div>
     <div class="card">
-      <div class="card-label">Recompras</div>
-      <div class="card-value amber">138</div>
+      <div class="card-lbl">Recompras</div>
+      <div class="card-val a">138</div>
       <div class="card-sub">clientes recorrentes</div>
     </div>
-    <div class="card">
-      <div class="card-label">Total pedidos</div>
-      <div class="card-value">733</div>
-      <div class="card-sub">Jan–13 Abr 2026</div>
+    <div class="card bt-r">
+      <div class="card-lbl">Média de recompra</div>
+      <div class="badge am">⏱ ciclo médio</div>
+      <div class="card-val a">57 dias</div>
+      <div class="card-sub">Mediana: <strong>30 dias</strong> · 717 clientes analisados</div>
     </div>
   </div>
 
   <!-- GRÁFICOS PRINCIPAIS -->
-  <div class="grid-2-1">
-    <div class="chart-card">
-      <div class="chart-title">Vendas mensais</div>
-      <div class="chart-subtitle">Realizado vs Meta vs 2025</div>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#1a9e6e"></div>2026</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Meta</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#d1d5db"></div>2025</div>
+  <div class="g21">
+    <div class="cc">
+      <div class="ct">Vendas mensais</div>
+      <div class="cs">Realizado vs Meta vs 2025</div>
+      <div class="leg">
+        <div class="li"><div class="ld" style="background:#1a9e6e"></div>2026</div>
+        <div class="li"><div class="ld" style="background:#2563eb"></div>Meta</div>
+        <div class="li"><div class="ld" style="background:#d1d5db"></div>2025</div>
       </div>
-      <div class="chart-wrap"><canvas id="chartVendas" height="200"></canvas></div>
+      <canvas id="cV" height="200"></canvas>
     </div>
-    <div class="chart-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-      <div class="chart-title" style="text-align:center">Meta anual</div>
-      <div class="chart-subtitle" style="text-align:center">YTD · R$987K de R$5,74M</div>
-      <div class="donut-wrap" style="margin:12px auto;">
-        <canvas id="chartMeta"></canvas>
-        <div class="donut-center">
-          <div class="donut-pct">17,2%</div>
-          <div class="donut-label">da meta</div>
-        </div>
+    <div class="cc" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div class="ct" style="text-align:center">Meta anual</div>
+      <div class="cs" style="text-align:center">YTD · R$987K de R$5,74M</div>
+      <div class="dw" style="margin:12px auto">
+        <canvas id="cM"></canvas>
+        <div class="dc"><div class="dp">17,2%</div><div class="dl">da meta</div></div>
       </div>
     </div>
   </div>
 
   <!-- TRIMESTRES -->
-  <div class="grid-4">
+  <div class="g4" style="margin-bottom:0">
     <div class="trim-card">
-      <div class="trim-label">Trimestre 01</div>
-      <div class="trim-value">R$869K</div>
-      <div class="trim-bar"><div class="trim-bar-fill" style="width:100%;background:var(--green)"></div></div>
-      <div class="trim-meta">Meta: R$860K · <strong style="color:var(--green)">+1,0%</strong></div>
+      <div class="tl">Trimestre 01</div>
+      <div class="tv">R$869K</div>
+      <div class="tbar"><div class="tbf" style="width:100%;background:var(--green)"></div></div>
+      <div class="tm">Meta: R$860K · <strong style="color:var(--green)">+1,0%</strong></div>
     </div>
     <div class="trim-card">
-      <div class="trim-label">Trimestre 02</div>
-      <div class="trim-value">R$118K <span style="font-size:13px;color:var(--gray-400)">(parcial)</span></div>
-      <div class="trim-bar"><div class="trim-bar-fill" style="width:10%;background:var(--amber)"></div></div>
-      <div class="trim-meta">Meta: R$1,18M · Em andamento</div>
+      <div class="tl">Trimestre 02</div>
+      <div class="tv">R$118K <span style="font-size:13px;color:var(--g400)">(parcial)</span></div>
+      <div class="tbar"><div class="tbf" style="width:10%;background:var(--amber)"></div></div>
+      <div class="tm">Meta: R$1,18M · Em andamento</div>
     </div>
     <div class="trim-card">
-      <div class="trim-label">Trimestre 03</div>
-      <div class="trim-value" style="color:var(--gray-300)">—</div>
-      <div class="trim-bar"><div class="trim-bar-fill" style="width:0%;background:var(--gray-300)"></div></div>
-      <div class="trim-meta">Meta: R$1,29M · —</div>
+      <div class="tl">Trimestre 03</div>
+      <div class="tv" style="color:var(--g200)">—</div>
+      <div class="tbar"><div class="tbf" style="width:0"></div></div>
+      <div class="tm">Meta: R$1,29M · —</div>
     </div>
     <div class="trim-card">
-      <div class="trim-label">Trimestre 04</div>
-      <div class="trim-value" style="color:var(--gray-300)">—</div>
-      <div class="trim-bar"><div class="trim-bar-fill" style="width:0%;background:var(--gray-300)"></div></div>
-      <div class="trim-meta">Meta: R$2,41M · —</div>
+      <div class="tl">Trimestre 04</div>
+      <div class="tv" style="color:var(--g200)">—</div>
+      <div class="tbar"><div class="tbf" style="width:0"></div></div>
+      <div class="tm">Meta: R$2,41M · —</div>
+    </div>
+  </div>
+
+  <!-- RADAR DE RECOMPRA -->
+  <div class="sec">Radar de recompra</div>
+  <div class="radar-wrap">
+    <div class="radar-head">
+      <div class="radar-head-left">
+        <h2>Ciclo de recompra por cliente</h2>
+        <p>Análise de Jan/2025–Abr/2026 · 717 clientes com histórico de recompra · Média geral: 57 dias · Mediana: 30 dias</p>
+        <div class="dist-bar" style="width:280px;margin-top:10px" title="Distribuição dos intervalos">
+          <div class="dist-seg" style="width:34%;background:#1a9e6e" title="Até 15 dias: 34%"></div>
+          <div class="dist-seg" style="width:16.4%;background:#60c9a0" title="16–30 dias: 16%"></div>
+          <div class="dist-seg" style="width:17.6%;background:#fbbf24" title="31–60 dias: 18%"></div>
+          <div class="dist-seg" style="width:10%;background:#f97316" title="61–90 dias: 10%"></div>
+          <div class="dist-seg" style="width:21.9%;background:#ef4444" title="+90 dias: 22%"></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:6px;flex-wrap:wrap">
+          <span style="font-size:10px;color:var(--g400)"><span style="color:#1a9e6e">■</span> Até 15d: 34%</span>
+          <span style="font-size:10px;color:var(--g400)"><span style="color:#60c9a0">■</span> 16–30d: 16%</span>
+          <span style="font-size:10px;color:var(--g400)"><span style="color:#fbbf24">■</span> 31–60d: 18%</span>
+          <span style="font-size:10px;color:var(--g400)"><span style="color:#f97316">■</span> 61–90d: 10%</span>
+          <span style="font-size:10px;color:var(--g400)"><span style="color:#ef4444">■</span> +90d: 22%</span>
+        </div>
+      </div>
+      <div class="radar-stats">
+        <div class="rstat media">
+          <div class="rstat-n">57d</div>
+          <div class="rstat-l">Média geral</div>
+        </div>
+        <div class="rstat g">
+          <div class="rstat-n">269</div>
+          <div class="rstat-l">No padrão</div>
+        </div>
+        <div class="rstat a">
+          <div class="rstat-n">76</div>
+          <div class="rstat-l">Oportunidade</div>
+        </div>
+        <div class="rstat r">
+          <div class="rstat-n">372</div>
+          <div class="rstat-l">Crítico</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="radar-tabs">
+      <button class="rtab rt-g active" onclick="switchTab('padrao',this)">
+        ✓ Dentro do padrão <span class="badge-sm">269</span>
+      </button>
+      <button class="rtab rt-a" onclick="switchTab('oportunidade',this)">
+        ⏰ Oportunidade <span class="badge-sm">76</span>
+      </button>
+      <button class="rtab rt-r" onclick="switchTab('critico',this)">
+        🔴 Crítico <span class="badge-sm">372</span>
+      </button>
+    </div>
+
+    <div class="radar-body">
+
+      <!-- PADRÃO -->
+      <div id="tab-padrao" class="radar-panel active">
+        <table class="radar-table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Última compra</th>
+              <th>Dias sem comprar</th>
+              <th>Ciclo médio</th>
+              <th>Progresso do ciclo</th>
+              <th>Compras</th>
+              <th>Valor histórico</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-padrao"></tbody>
+        </table>
+      </div>
+
+      <!-- OPORTUNIDADE -->
+      <div id="tab-oportunidade" class="radar-panel">
+        <table class="radar-table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Última compra</th>
+              <th>Dias sem comprar</th>
+              <th>Ciclo médio</th>
+              <th>Progresso do ciclo</th>
+              <th>Compras</th>
+              <th>Valor histórico</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-oportunidade"></tbody>
+        </table>
+      </div>
+
+      <!-- CRÍTICO -->
+      <div id="tab-critico" class="radar-panel">
+        <table class="radar-table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Última compra</th>
+              <th>Dias sem comprar</th>
+              <th>Ciclo médio</th>
+              <th>Desvio do padrão</th>
+              <th>Compras</th>
+              <th>Valor em risco</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-critico"></tbody>
+        </table>
+      </div>
+
     </div>
   </div>
 
   <!-- CURVA ABC + ESTADOS -->
-  <div class="grid-1-2">
-    <div class="chart-card">
-      <div class="chart-title">Curva ABC — Clientes</div>
-      <div class="chart-subtitle">Jan–Abr 2026 · 491 clientes ativos</div>
-      <div style="margin:16px 0 8px;">
-        <canvas id="chartABC" height="160"></canvas>
+  <div class="g12">
+    <div class="cc">
+      <div class="ct">Curva ABC — Clientes</div>
+      <div class="cs">Jan–Abr 2026 · 491 clientes ativos</div>
+      <div style="margin:16px 0 8px"><canvas id="cA" height="160"></canvas></div>
+      <div class="abc-row">
+        <div class="abl al">A</div>
+        <div class="ain"><div class="an">23 clientes · Varejo: 13 · Atacado: 10</div><div class="ad">Alta frequência</div></div>
+        <div class="ap a">19,6%</div>
       </div>
       <div class="abc-row">
-        <div class="abc-letter abc-a">A</div>
-        <div class="abc-info">
-          <div class="abc-name">23 clientes · Varejo: 13 · Atacado: 10</div>
-          <div class="abc-detail">Alta frequência de compra</div>
-        </div>
-        <div class="abc-pct a">19,6%</div>
+        <div class="abl ab">B</div>
+        <div class="ain"><div class="an">101 clientes · Varejo: 61 · Atacado: 40</div><div class="ad">Potencial de upgrade</div></div>
+        <div class="ap b">30,3%</div>
       </div>
       <div class="abc-row">
-        <div class="abc-letter abc-b">B</div>
-        <div class="abc-info">
-          <div class="abc-name">101 clientes · Varejo: 61 · Atacado: 40</div>
-          <div class="abc-detail">Potencial de upgrade</div>
-        </div>
-        <div class="abc-pct b">30,3%</div>
-      </div>
-      <div class="abc-row">
-        <div class="abc-letter abc-c">C</div>
-        <div class="abc-info">
-          <div class="abc-name">367 clientes · Varejo: 257 · Atacado: 110</div>
-          <div class="abc-detail">1ª ou 2ª compra — alvo de reativação</div>
-        </div>
-        <div class="abc-pct c">50,1%</div>
+        <div class="abl ac">C</div>
+        <div class="ain"><div class="an">367 clientes · Varejo: 257 · Atacado: 110</div><div class="ad">Alvo de reativação</div></div>
+        <div class="ap c">50,1%</div>
       </div>
     </div>
-
-    <div class="chart-card">
-      <div class="chart-title">Clientes por estado</div>
-      <div class="chart-subtitle">Faturamento Jan–13Abr 2026</div>
-      <div style="margin-top:12px;" id="estadosBars"></div>
+    <div class="cc">
+      <div class="ct">Clientes por estado</div>
+      <div class="cs">Faturamento Jan–13Abr 2026</div>
+      <div style="margin-top:12px" id="estados"></div>
     </div>
   </div>
 
   <!-- PRODUTOS + FONTES -->
-  <div class="grid-2">
-    <div class="chart-card">
-      <div class="chart-title">Top 10 produtos</div>
-      <div class="chart-subtitle">Por faturamento · Jan–13Abr 2026</div>
-      <div style="margin-top:12px;" id="produtosList"></div>
+  <div class="g2">
+    <div class="cc">
+      <div class="ct">Top 10 produtos</div>
+      <div class="cs">Por faturamento · Jan–13Abr 2026</div>
+      <div style="margin-top:12px" id="produtos"></div>
     </div>
-    <div class="grid" style="display:grid;grid-template-columns:1fr;gap:16px;">
-      <div class="chart-card">
-        <div class="chart-title">Fontes de aquisição</div>
-        <div class="chart-subtitle">Compras rastreadas Jan–Abr 2026</div>
-        <div style="margin-top:16px;" id="fontesList"></div>
+    <div style="display:grid;grid-template-columns:1fr;gap:16px">
+      <div class="cc">
+        <div class="ct">Fontes de aquisição</div>
+        <div class="cs">Compras rastreadas Jan–Abr 2026</div>
+        <div style="margin-top:16px" id="fontes"></div>
       </div>
-      <div class="insight-box">
-        <div class="insight-title">Insights estratégicos</div>
-        <div class="insight-item">
-          <div class="insight-dot" style="background:#1a9e6e"></div>
-          <div class="insight-text"><strong>437 clientes compraram 1x</strong> — R$548K em receita potencial de recompra. Prioridade máxima do pós-venda.</div>
-        </div>
-        <div class="insight-item">
-          <div class="insight-dot" style="background:#f59e0b"></div>
-          <div class="insight-text"><strong>Instagram (link bio)</strong> é a principal fonte orgânica com 77 compras. Investimento em conteúdo tem retorno mensurável.</div>
-        </div>
-        <div class="insight-item">
-          <div class="insight-dot" style="background:#3b82f6"></div>
-          <div class="insight-text"><strong>Moda infantil domina</strong>: Gola Careca + Camiseta Machão = 19,7% do faturamento. Mix validado — explorar mais variações.</div>
-        </div>
-        <div class="insight-item">
-          <div class="insight-dot" style="background:#a855f7"></div>
-          <div class="insight-text"><strong>Nordeste concentra 85% do faturamento</strong>. PE + BA + SE + RN = top 4. Expansão para CE e PI tem potencial imediato.</div>
-        </div>
+      <div class="ib">
+        <div class="it">Insights estratégicos</div>
+        <div class="ii"><div class="idot" style="background:#1a9e6e"></div><div class="itx"><strong>437 clientes compraram 1x</strong> — R$548K em receita potencial de recompra. Prioridade máxima do pós-venda.</div></div>
+        <div class="ii"><div class="idot" style="background:#ef4444"></div><div class="itx"><strong>Tereza Galvão</strong> está 594% além do ciclo médio. Histórico de R$159K — contato urgente.</div></div>
+        <div class="ii"><div class="idot" style="background:#fbbf24"></div><div class="itx"><strong>Andreza Livia</strong> está no ponto exato de recompra (99% do ciclo). R$105K de histórico — contato agora.</div></div>
+        <div class="ii"><div class="idot" style="background:#3b82f6"></div><div class="itx"><strong>Nordeste concentra 85%</strong> do faturamento. PE + BA + SE + RN = top 4 estados.</div></div>
       </div>
     </div>
   </div>
 
-  <div style="text-align:center;padding:24px 0;font-size:11px;color:var(--gray-400);">
-    Indivíduo · Dashboard 2026 · Atualizado em 14/04/2026
-  </div>
-
+  <div style="text-align:center;padding:24px 0;font-size:11px;color:var(--g400)">Indivíduo · Dashboard 2026 · Atualizado em 14/04/2026 · BeWay Assessoria</div>
 </div>
 
 <script>
 // ─── DADOS ───────────────────────────────────────────────────────────────────
-const vendas = {
-  1:  { nome:'Jan', v2025:272081,  v2026:360144, meta:320095, pedidos:243, ticket:1482 },
-  2:  { nome:'Fev', v2025:234454,  v2026:236334, meta:271275, pedidos:168, ticket:1407 },
-  3:  { nome:'Mar', v2025:225118,  v2026:272996, meta:269025, pedidos:229, ticket:1192 },
-  4:  { nome:'Abr', v2025:280619,  v2026:117644, meta:315548, pedidos:93,  ticket:1265 },
-  5:  { nome:'Mai', v2025:375929,  v2026:0,      meta:442269, pedidos:0,   ticket:0    },
-  6:  { nome:'Jun', v2025:356799,  v2026:0,      meta:419034, pedidos:0,   ticket:0    },
-  7:  { nome:'Jul', v2025:354052,  v2026:0,      meta:422901, pedidos:0,   ticket:0    },
-  8:  { nome:'Ago', v2025:298168,  v2026:0,      meta:351796, pedidos:0,   ticket:0    },
-  9:  { nome:'Set', v2025:483709,  v2026:0,      meta:517463, pedidos:0,   ticket:0    },
-  10: { nome:'Out', v2025:502923,  v2026:0,      meta:598078, pedidos:0,   ticket:0    },
-  11: { nome:'Nov', v2025:787199,  v2026:0,      meta:936535, pedidos:0,   ticket:0    },
-  12: { nome:'Dez', v2025:740807,  v2026:0,      meta:872200, pedidos:0,   ticket:0    },
-};
-const trimestres = {
-  T1: { meses:[1,2,3] }, T2: { meses:[4,5,6] },
-  T3: { meses:[7,8,9] }, T4: { meses:[10,11,12] }
-};
-const estadosData = [
-  { nome:'Pernambuco',         abr:'PE', valor:165999, clientes:83 },
-  { nome:'Bahia',              abr:'BA', valor:163459, clientes:91 },
-  { nome:'Sergipe',            abr:'SE', valor:141503, clientes:43 },
-  { nome:'Rio Gr. do Norte',  abr:'RN', valor:126161, clientes:63 },
-  { nome:'Paraíba',            abr:'PB', valor:99184,  clientes:47 },
-  { nome:'Alagoas',            abr:'AL', valor:57161,  clientes:36 },
-  { nome:'Piauí',              abr:'PI', valor:54323,  clientes:20 },
-  { nome:'Maranhão',           abr:'MA', valor:33591,  clientes:25 },
-  { nome:'Espírito Santo',     abr:'ES', valor:30690,  clientes:10 },
-  { nome:'Ceará',              abr:'CE', valor:29868,  clientes:15 },
-  { nome:'Minas Gerais',       abr:'MG', valor:29569,  clientes:20 },
+const V={1:{n:'Jan',v25:272081,v26:360144,m:320095,p:243,tk:1482},2:{n:'Fev',v25:234454,v26:236334,m:271275,p:168,tk:1407},3:{n:'Mar',v25:225118,v26:272996,m:269025,p:229,tk:1192},4:{n:'Abr',v25:280619,v26:117644,m:315548,p:93,tk:1265},5:{n:'Mai',v25:375929,v26:0,m:442269,p:0,tk:0},6:{n:'Jun',v25:356799,v26:0,m:419034,p:0,tk:0},7:{n:'Jul',v25:354052,v26:0,m:422901,p:0,tk:0},8:{n:'Ago',v25:298168,v26:0,m:351796,p:0,tk:0},9:{n:'Set',v25:483709,v26:0,m:517463,p:0,tk:0},10:{n:'Out',v25:502923,v26:0,m:598078,p:0,tk:0},11:{n:'Nov',v25:787199,v26:0,m:936535,p:0,tk:0},12:{n:'Dez',v25:740807,v26:0,m:872200,p:0,tk:0}};
+const T={T1:[1,2,3],T2:[4,5,6],T3:[7,8,9],T4:[10,11,12]};
+
+const CRITICOS=[
+  ['Tereza Galvão',{media:16.5,ultima:'06/01/2026',dias:98,compras:23,valor:159504,pct:594}],
+  ['Kelvi da silva félix',{media:17.8,ultima:'18/03/2026',dias:27,compras:25,valor:71475,pct:151}],
+  ['SONHAR E CRESCER KIDS',{media:10.9,ultima:'24/02/2026',dias:49,compras:21,valor:43392,pct:450}],
+  ['Carla Dutra',{media:14.6,ultima:'04/02/2026',dias:69,compras:28,valor:39313,pct:474}],
+  ['RONEY FEITOSA DE PAULA',{media:14.1,ultima:'15/01/2026',dias:89,compras:19,valor:35648,pct:633}],
+  ['ALEX SOUZA',{media:59.5,ultima:'22/01/2026',dias:82,compras:7,valor:32451,pct:138}],
+  ['OUSADIA TEENS LTDA',{media:52.4,ultima:'12/01/2026',dias:92,compras:8,valor:28438,pct:175}],
+  ['VANESSA FONTES CHAGAS AZEVEDO',{media:56.0,ultima:'17/12/2025',dias:118,compras:6,valor:28351,pct:211}],
+  ['Rita Bahia',{media:108.0,ultima:'04/12/2025',dias:131,compras:4,valor:26276,pct:121}],
+  ['BALAO MAGICO',{media:21.0,ultima:'12/01/2026',dias:92,compras:17,valor:25719,pct:438}],
+  ['Renata Santiago',{media:31.5,ultima:'27/01/2026',dias:77,compras:13,valor:25545,pct:244}],
+  ['KARINE CALCADOS E CONFECCOES',{media:49.1,ultima:'12/02/2026',dias:61,compras:9,valor:25091,pct:124}],
+  ['MARCOS APARECIDO LIMA DAMACENO',{media:35.3,ultima:'09/12/2025',dias:126,compras:4,valor:24855,pct:357}],
+  ['DRIELLY DA SILVA ALMEIDA',{media:16.3,ultima:'18/12/2025',dias:117,compras:13,valor:22674,pct:716}],
+  ['AnaPaula Armando',{media:21.4,ultima:'11/03/2026',dias:34,compras:18,valor:22664,pct:159}],
+  ['Diego Lima',{media:35.3,ultima:'26/02/2026',dias:47,compras:4,valor:18090,pct:133}],
+  ['Luciano Souza borges',{media:21.9,ultima:'20/01/2026',dias:84,compras:15,valor:17849,pct:383}],
+  ['Elitania Bezerra',{media:27.5,ultima:'25/02/2026',dias:48,compras:16,valor:17519,pct:174}],
 ];
-const produtosData = [
-  { nome:'Gola Careca Básica Infantil',            valor:98586  },
-  { nome:'Camiseta Machão Lisa Inf./Juv.',          valor:95610  },
-  { nome:'Gola Careca Básica Juvenil',             valor:54925  },
-  { nome:'Short Tactel Liso Infantil',             valor:48786  },
-  { nome:'Short Tactel Estampado Infantil',        valor:48470  },
-  { nome:'Bermuda Brim c/ Torçal Infantil',        valor:43864  },
-  { nome:'Short Tactel Liso Juvenil',              valor:36728  },
-  { nome:'Short Verano Infantil',                  valor:35564  },
-  { nome:'Short Tactel Estampado Juvenil',         valor:33249  },
-  { nome:'Camisa Gola Polo Infantil',              valor:28006  },
+const OPORTUNIDADES=[
+  ['Andreza Livia Gomes Figueiredo Maciel',{media:19.2,ultima:'26/03/2026',dias:19,compras:24,valor:105437,pct:99}],
+  ['PINGO DE GENTE CAICO',{media:23.1,ultima:'19/03/2026',dias:26,compras:19,valor:58076,pct:113}],
+  ['Thayná Arroxelas',{media:25.2,ultima:'18/03/2026',dias:27,compras:18,valor:21816,pct:107}],
+  ['SANTOS & COSTA CONFECCAO LTDA',{media:86.7,ultima:'13/01/2026',dias:91,compras:4,valor:21645,pct:105}],
+  ['MARIANA REIMBERG BORGES',{media:80.5,ultima:'13/01/2026',dias:91,compras:5,valor:20984,pct:113}],
+  ['Bs artigos de confeccoes ltda',{media:64.8,ultima:'06/02/2026',dias:67,compras:6,valor:19803,pct:103}],
+  ['Meu Garotoo Moda Infantil e Juvenil',{media:53.7,ultima:'25/02/2026',dias:48,compras:7,valor:14784,pct:89}],
+  ['VALDIRENE GAMA SILVA',{media:29.9,ultima:'10/03/2026',dias:35,compras:15,valor:13675,pct:117}],
+  ['JOSIDEG DINIZ DA COSTA',{media:60.5,ultima:'02/02/2026',dias:71,compras:7,valor:13039,pct:117}],
+  ['Leticia Lima',{media:32.0,ultima:'11/03/2026',dias:34,compras:6,valor:12230,pct:106}],
+  ['Rafaella Yslane Lima do N Moura',{media:29.0,ultima:'20/03/2026',dias:25,compras:16,valor:11771,pct:86}],
+  ['Kaiky imports',{media:41.5,ultima:'26/02/2026',dias:47,compras:11,valor:11362,pct:113}],
+  ['Joicy Alves',{media:41.9,ultima:'03/03/2026',dias:42,compras:11,valor:10432,pct:100}],
+  ['Epaminondas Ramos',{media:98.0,ultima:'06/01/2026',dias:98,compras:4,valor:8729,pct:100}],
+  ['LDR OLIVEIRA MODAS',{media:88.5,ultima:'13/01/2026',dias:91,compras:5,valor:8279,pct:103}],
 ];
-const fontesData = [
-  { nome:'Instagram (link bio)',  qtd:77,  valor:52322, cor:'#e11d48', icon:'📸' },
-  { nome:'WhatsApp',              qtd:60,  valor:33334, cor:'#16a34a', icon:'💬' },
-  { nome:'Direto / Orgânico',     qtd:48,  valor:42975, cor:'#2563eb', icon:'🔗' },
-  { nome:'Google',                qtd:12,  valor:3590,  cor:'#d97706', icon:'🔍' },
+const PADRAO=[
+  ['Nadyanne Albuquerque',{media:13.2,ultima:'08/04/2026',dias:6,compras:35,valor:175653,pct:45}],
+  ['MARCELA CONFECCOES',{media:18.5,ultima:'01/04/2026',dias:13,compras:24,valor:96506,pct:70}],
+  ['Raiane louisy Moraes de carvalho',{media:6.3,ultima:'09/04/2026',dias:5,compras:74,valor:72652,pct:80}],
+  ['Maria do Socorro Lima',{media:9.2,ultima:'09/04/2026',dias:5,compras:50,valor:44441,pct:54}],
+  ['Maria Jeisce Santos da Silva',{media:16.3,ultima:'08/04/2026',dias:6,compras:29,valor:39132,pct:37}],
+  ['Maria Ozanira confecções',{media:88.0,ultima:'05/02/2026',dias:68,compras:5,valor:38217,pct:77}],
+  ['Maria Aline Nascimento',{media:38.7,ultima:'01/04/2026',dias:13,compras:12,valor:36616,pct:34}],
+  ['GOES S COSTA MODA INFANTIL LTDA',{media:33.5,ultima:'26/03/2026',dias:19,compras:14,valor:35820,pct:57}],
+  ['Jovens kids',{media:22.8,ultima:'07/04/2026',dias:7,compras:21,valor:34722,pct:31}],
+  ['ALBERTO DUNDA FERREIRA',{media:23.8,ultima:'25/03/2026',dias:20,compras:19,valor:29040,pct:84}],
+];
+
+const ESTADOS=[
+  {n:'PE',v:165999,c:83},{n:'BA',v:163459,c:91},{n:'SE',v:141503,c:43},
+  {n:'RN',v:126161,c:63},{n:'PB',v:99184,c:47},{n:'AL',v:57161,c:36},
+  {n:'PI',v:54323,c:20},{n:'MA',v:33591,c:25},{n:'ES',v:30690,c:10},
+  {n:'CE',v:29868,c:15},{n:'MG',v:29569,c:20},
+];
+const PRODS=[
+  {n:'Gola Careca Básica Infantil',v:98586},{n:'Camiseta Machão Lisa Inf./Juv.',v:95610},
+  {n:'Gola Careca Básica Juvenil',v:54925},{n:'Short Tactel Liso Infantil',v:48786},
+  {n:'Short Tactel Estampado Infantil',v:48470},{n:'Bermuda Brim c/ Torçal Inf.',v:43864},
+  {n:'Short Tactel Liso Juvenil',v:36728},{n:'Short Verano Infantil',v:35564},
+  {n:'Short Tactel Estampado Juvenil',v:33249},{n:'Camisa Gola Polo Infantil',v:28006},
+];
+const FONTES=[
+  {n:'Instagram (link bio)',q:77,v:52322,c:'#e11d48',i:'📸'},
+  {n:'WhatsApp',q:60,v:33334,c:'#16a34a',i:'💬'},
+  {n:'Direto / Orgânico',q:48,v:42975,c:'#2563eb',i:'🔗'},
+  {n:'Google',q:12,v:3590,c:'#d97706',i:'🔍'},
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
-const fmt = v => v >= 1000000 ? 'R$' + (v/1000000).toFixed(1) + 'M'
-               : v >= 1000    ? 'R$' + Math.round(v/1000) + 'K'
-               :                'R$' + v;
-const fmtFull = v => 'R$' + v.toLocaleString('pt-BR');
-const pct = (a,b) => b ? ((a-b)/b*100).toFixed(1) : '—';
+const f=v=>v>=1e6?'R$'+(v/1e6).toFixed(1)+'M':v>=1000?'R$'+Math.round(v/1000)+'K':'R$'+v;
+const ff=v=>'R$'+Math.round(v).toLocaleString('pt-BR');
 
 // ─── CHARTS ──────────────────────────────────────────────────────────────────
-let chartVendas, chartMeta, chartABC;
-
-function buildCharts() {
-  const labels = Object.values(vendas).map(d => d.nome);
-  const d2026  = Object.values(vendas).map(d => d.v2026 || null);
-  const dmeta  = Object.values(vendas).map(d => d.meta);
-  const d2025  = Object.values(vendas).map(d => d.v2025);
-
-  if (chartVendas) chartVendas.destroy();
-  chartVendas = new Chart(document.getElementById('chartVendas'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        { label:'2026', data: d2026, backgroundColor:'#1a9e6e', borderRadius:4, maxBarThickness:28 },
-        { label:'Meta', data: dmeta, type:'line', borderColor:'#2563eb', pointRadius:3, pointBackgroundColor:'#2563eb', borderWidth:2, fill:false, tension:.3, spanGaps:true },
-        { label:'2025', data: d2025, type:'line', borderColor:'#d1d5db', pointRadius:0, borderWidth:1.5, fill:false, tension:.3, borderDash:[4,4] },
-      ]
-    },
-    options: {
-      responsive:true, interaction:{ mode:'index', intersect:false },
-      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{
-        label: ctx => ' ' + ctx.dataset.label + ': ' + fmtFull(ctx.parsed.y||0)
-      }}},
-      scales:{
-        x:{ grid:{ display:false }, ticks:{ font:{ size:11 } } },
-        y:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:11 }, callback: v => fmt(v) } }
-      }
-    }
-  });
-
-  if (chartMeta) chartMeta.destroy();
-  chartMeta = new Chart(document.getElementById('chartMeta'), {
-    type:'doughnut',
-    data:{
-      datasets:[{
-        data:[987118, 5736221-987118],
-        backgroundColor:['#1a9e6e','#f3f4f6'],
-        borderWidth:0, hoverOffset:4
-      }]
-    },
-    options:{ cutout:'72%', plugins:{ legend:{ display:false }, tooltip:{ enabled:false } }, animation:{ animateRotate:true } }
-  });
-
-  if (chartABC) chartABC.destroy();
-  chartABC = new Chart(document.getElementById('chartABC'), {
-    type:'doughnut',
-    data:{
-      labels:['Classe A','Classe B','Classe C'],
-      datasets:[{
-        data:[19.6, 30.3, 50.1],
-        backgroundColor:['#1a9e6e','#2563eb','#d97706'],
-        borderWidth:0, hoverOffset:4
-      }]
-    },
-    options:{ cutout:'60%', plugins:{ legend:{ display:false } }, animation:{ animateRotate:true } }
-  });
+let cV,cM,cA;
+function buildCharts(){
+  const labels=Object.values(V).map(d=>d.n);
+  const d26=Object.values(V).map(d=>d.v26||null);
+  const dm=Object.values(V).map(d=>d.m);
+  const d25=Object.values(V).map(d=>d.v25);
+  if(cV)cV.destroy();
+  cV=new Chart(document.getElementById('cV'),{type:'bar',data:{labels,datasets:[
+    {label:'2026',data:d26,backgroundColor:'#1a9e6e',borderRadius:4,maxBarThickness:28},
+    {label:'Meta',data:dm,type:'line',borderColor:'#2563eb',pointRadius:3,pointBackgroundColor:'#2563eb',borderWidth:2,fill:false,tension:.3,spanGaps:true},
+    {label:'2025',data:d25,type:'line',borderColor:'#d1d5db',pointRadius:0,borderWidth:1.5,fill:false,tension:.3,borderDash:[4,4]},
+  ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+ff(c.parsed.y||0)}}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#f3f4f6'},ticks:{font:{size:11},callback:v=>f(v)}}}}});
+  if(cM)cM.destroy();
+  cM=new Chart(document.getElementById('cM'),{type:'doughnut',data:{datasets:[{data:[987118,5736221-987118],backgroundColor:['#1a9e6e','#f3f4f6'],borderWidth:0,hoverOffset:4}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});
+  if(cA)cA.destroy();
+  cA=new Chart(document.getElementById('cA'),{type:'doughnut',data:{labels:['A','B','C'],datasets:[{data:[19.6,30.3,50.1],backgroundColor:['#1a9e6e','#2563eb','#d97706'],borderWidth:0,hoverOffset:4}]},options:{cutout:'60%',plugins:{legend:{display:false}}}});
 }
 
 // ─── ESTADOS ─────────────────────────────────────────────────────────────────
-function buildEstados() {
-  const max = estadosData[0].valor;
-  const el = document.getElementById('estadosBars');
-  el.innerHTML = estadosData.map(e => `
-    <div class="estado-row">
-      <div class="estado-nome">${e.abr}</div>
-      <div class="estado-bar-wrap"><div class="estado-bar-fill" style="width:${(e.valor/max*100).toFixed(1)}%"></div></div>
-      <div class="estado-valor">${fmt(e.valor)}</div>
-      <div class="estado-cli">${e.clientes} cli.</div>
-    </div>`).join('');
+function buildEstados(){
+  const max=ESTADOS[0].v;
+  document.getElementById('estados').innerHTML=ESTADOS.map(e=>`
+    <div class="er"><div class="en">${e.n}</div><div class="ebw"><div class="ebf" style="width:${(e.v/max*100).toFixed(1)}%"></div></div><div class="ev">${f(e.v)}</div><div class="ec">${e.c} cli.</div></div>`).join('');
 }
 
 // ─── PRODUTOS ────────────────────────────────────────────────────────────────
-function buildProdutos() {
-  const max = produtosData[0].valor;
-  const el = document.getElementById('produtosList');
-  el.innerHTML = produtosData.map((p,i) => `
-    <div class="produto-row">
-      <div class="produto-rank">${String(i+1).padStart(2,'0')}</div>
-      <div class="produto-nome">${p.nome}</div>
-      <div class="produto-bar-wrap"><div class="produto-bar-fill" style="width:${(p.valor/max*100).toFixed(1)}%"></div></div>
-      <div class="produto-valor">${fmt(p.valor)}</div>
-    </div>`).join('');
+function buildProdutos(){
+  const max=PRODS[0].v;
+  document.getElementById('produtos').innerHTML=PRODS.map((p,i)=>`
+    <div class="pr"><div class="prk">${String(i+1).padStart(2,'0')}</div><div class="pn">${p.n}</div><div class="pbw"><div class="pbf" style="width:${(p.v/max*100).toFixed(1)}%"></div></div><div class="pv">${f(p.v)}</div></div>`).join('');
 }
 
 // ─── FONTES ──────────────────────────────────────────────────────────────────
-function buildFontes() {
-  const max = Math.max(...fontesData.map(f=>f.qtd));
-  const el = document.getElementById('fontesList');
-  el.innerHTML = fontesData.map(f => `
-    <div class="fonte-row">
-      <div class="fonte-icon" style="background:${f.cor}22;font-size:16px;">${f.icon}</div>
-      <div class="fonte-info">
-        <div class="fonte-nome">${f.nome}</div>
-        <div class="fonte-bar-wrap"><div class="fonte-bar-fill" style="width:${(f.qtd/max*100).toFixed(1)}%;background:${f.cor}"></div></div>
-      </div>
-      <div class="fonte-qtd">${f.qtd}</div>
-      <div class="fonte-valor">${fmt(f.valor)}</div>
-    </div>`).join('');
+function buildFontes(){
+  const max=Math.max(...FONTES.map(x=>x.q));
+  document.getElementById('fontes').innerHTML=FONTES.map(x=>`
+    <div class="fr"><div class="fi" style="background:${x.c}22;font-size:16px">${x.i}</div><div class="fin"><div class="fn">${x.n}</div><div class="fbw"><div class="fbf" style="width:${(x.q/max*100).toFixed(1)}%;background:${x.c}"></div></div></div><div class="fq">${x.q}</div><div class="fv">${f(x.v)}</div></div>`).join('');
 }
 
-// ─── NAV: MÊS/TRIMESTRE/ANO ──────────────────────────────────────────────────
-function setMes(m, btn) {
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+// ─── RADAR TABLES ────────────────────────────────────────────────────────────
+function critPctColor(pct){
+  if(pct<=150) return '#d97706';
+  if(pct<=300) return '#f97316';
+  return '#dc2626';
+}
+function buildRadar(){
+  // PADRÃO
+  document.getElementById('tbody-padrao').innerHTML=PADRAO.map(([n,d])=>`<tr>
+    <td class="cli-name">${n}<small>${d.compras} compras no histórico</small></td>
+    <td class="mono">${d.ultima}</td>
+    <td><span class="chip g">${d.dias}d</span></td>
+    <td class="mono">${d.media}d</td>
+    <td class="progress-cell">
+      <div style="font-size:11px;color:var(--green)">${d.pct}% do ciclo</div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(d.pct,100)}%;background:var(--green)"></div></div>
+    </td>
+    <td class="mono">${d.compras}</td>
+    <td class="mono" style="color:var(--green);font-weight:600">${ff(d.valor)}</td>
+  </tr>`).join('');
+
+  // OPORTUNIDADE
+  document.getElementById('tbody-oportunidade').innerHTML=OPORTUNIDADES.map(([n,d])=>`<tr>
+    <td class="cli-name">${n}<small>${d.compras} compras · Contatar agora</small></td>
+    <td class="mono">${d.ultima}</td>
+    <td><span class="chip a">${d.dias}d</span></td>
+    <td class="mono">${d.media}d</td>
+    <td class="progress-cell">
+      <div style="font-size:11px;color:var(--amber)">${d.pct}% do ciclo</div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(d.pct,100)}%;background:var(--amber)"></div></div>
+    </td>
+    <td class="mono">${d.compras}</td>
+    <td class="mono" style="color:var(--amber);font-weight:600">${ff(d.valor)}</td>
+  </tr>`).join('');
+
+  // CRÍTICO
+  document.getElementById('tbody-critico').innerHTML=CRITICOS.map(([n,d])=>{
+    const cor=critPctColor(d.pct);
+    return `<tr>
+    <td class="cli-name">${n}<small>${d.compras} compras · Reativação urgente</small></td>
+    <td class="mono">${d.ultima}</td>
+    <td><span class="chip r">${d.dias}d</span></td>
+    <td class="mono">${d.media}d</td>
+    <td class="progress-cell">
+      <div style="font-size:11px;color:${cor};font-weight:600">${d.pct}% além do ciclo</div>
+      <div class="prog-bar"><div class="prog-fill" style="width:100%;background:${cor}"></div></div>
+    </td>
+    <td class="mono">${d.compras}</td>
+    <td class="mono" style="color:${cor};font-weight:600">${ff(d.valor)}</td>
+  </tr>`}).join('');
+}
+
+// ─── TAB SWITCH ──────────────────────────────────────────────────────────────
+function switchTab(id, btn){
+  document.querySelectorAll('.radar-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
+}
 
-  let real=0, meta=0, v2025=0, pedidos=0, ticket=0;
-
-  if (typeof m === 'number') {
-    const d = vendas[m];
-    real=d.v2026; meta=d.meta; v2025=d.v2025; pedidos=d.pedidos; ticket=d.ticket;
-  } else if (m === 'ano') {
-    Object.values(vendas).forEach(d => { real+=d.v2026; meta+=d.meta; v2025+=d.v2025; pedidos+=d.pedidos; });
-    ticket = pedidos ? Math.round(real/pedidos) : 0;
-  } else if (trimestres[m]) {
-    trimestres[m].meses.forEach(mm => {
-      const d=vendas[mm]; real+=d.v2026; meta+=d.meta; v2025+=d.v2025; pedidos+=d.pedidos;
-    });
-    ticket = pedidos ? Math.round(real/pedidos) : 0;
-  }
-
-  const crescPct = v2025 ? ((real-v2025)/v2025*100) : 0;
-  const isUp = crescPct >= 0;
-
-  document.getElementById('kvRealizado').textContent = fmt(real);
-  document.getElementById('kvMeta').textContent = fmt(meta);
-  document.getElementById('kvCrescimento').textContent = (isUp?'+':'') + crescPct.toFixed(1)+'%';
-  document.getElementById('kv2025').textContent = fmt(v2025);
-  document.getElementById('kvTicket').textContent = ticket ? 'R$'+ticket.toLocaleString('pt-BR') : '—';
-  document.getElementById('kvPedidos').textContent = pedidos + ' pedidos no período';
-  document.getElementById('badgeCrescimento').className = 'badge ' + (isUp?'up':'down');
-  document.getElementById('badgeCrescimento').textContent = (isUp?'▲ +':'▼ ') + Math.abs(crescPct).toFixed(1)+'%';
-  document.getElementById('badgeCresc2').className = 'badge ' + (isUp?'up':'down');
-  document.getElementById('badgeCresc2').textContent = isUp ? '▲ Acima' : '▼ Abaixo';
+// ─── NAV ─────────────────────────────────────────────────────────────────────
+function setM(m,btn){
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let real=0,meta=0,v25=0,ped=0,tk=0;
+  if(typeof m==='number'){const d=V[m];real=d.v26;meta=d.m;v25=d.v25;ped=d.p;tk=d.tk;}
+  else if(m==='ano'){Object.values(V).forEach(d=>{real+=d.v26;meta+=d.m;v25+=d.v25;ped+=d.p;});tk=ped?Math.round(real/ped):0;}
+  else if(T[m]){T[m].forEach(mm=>{const d=V[mm];real+=d.v26;meta+=d.m;v25+=d.v25;ped+=d.p;});tk=ped?Math.round(real/ped):0;}
+  const cr=v25?((real-v25)/v25*100):0,up=cr>=0;
+  document.getElementById('kvReal').textContent=f(real);
+  document.getElementById('kvMeta').textContent=f(meta);
+  document.getElementById('kvCr').textContent=(up?'+':'')+cr.toFixed(1)+'%';
+  document.getElementById('kv25').textContent=f(v25);
+  document.getElementById('kvTk').textContent=tk?'R$'+tk.toLocaleString('pt-BR'):'—';
+  document.getElementById('kvPed').textContent=ped+' pedidos no período';
+  document.getElementById('bCresc').className='badge '+(up?'up':'dn');
+  document.getElementById('bCresc').textContent=(up?'▲ +':'▼ ')+Math.abs(cr).toFixed(1)+'%';
+  document.getElementById('bCresc2').className='badge '+(up?'up':'dn');
+  document.getElementById('bCresc2').textContent=up?'▲ Acima':'▼ Abaixo';
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  buildCharts();
-  buildEstados();
-  buildProdutos();
-  buildFontes();
-  document.getElementById('updateTime').textContent = 
-    'Atualizado ' + new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+document.addEventListener('DOMContentLoaded',()=>{
+  buildCharts(); buildEstados(); buildProdutos(); buildFontes(); buildRadar();
+  document.getElementById('upd').textContent='Atualizado '+new Date().toLocaleDateString('pt-BR')+', '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
 });
 </script>
 </body>
