@@ -1,187 +1,195 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Indivíduo · Dashboard Comercial 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-  :root {
-    --green:#1a9e6e; --green-light:#e6f7f1; --green-mid:#0f6e4f;
-    --amber:#d97706; --amber-light:#fef3c7;
-    --red:#dc2626; --red-light:#fef2f2; --red-mid:#991b1b;
-    --blue:#2563eb; --blue-light:#eff6ff;
-    --purple:#7c3aed;
-    --g50:#f9fafb; --g100:#f3f4f6; --g200:#e5e7eb;
-    --g400:#9ca3af; --g600:#4b5563; --g800:#1f2937; --g900:#111827;
-    --r:12px; --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',sans-serif;background:#f0f2f5;color:var(--g900);font-size:14px;line-height:1.5}
-
-  .header{background:#fff;border-bottom:1px solid var(--g200);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
-  .logo{display:flex;align-items:center;gap:12px}
-  .logo-badge{width:36px;height:36px;background:var(--g900);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;letter-spacing:.5px}
-  .logo h1{font-size:15px;font-weight:600}
-  .logo p{font-size:11px;color:var(--g400)}
-  .header-right{display:flex;align-items:center;gap:12px}
-  .upd{font-size:11px;color:var(--g400);font-family:'DM Mono',monospace}
-  .btn{background:var(--g900);color:#fff;border:none;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
-
-  .nav{background:#fff;border-bottom:1px solid var(--g200);padding:0 32px;display:flex;align-items:center;gap:4px;overflow-x:auto;height:48px}
-  .nb{border:none;background:none;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;color:var(--g600);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s}
-  .nb:hover{background:var(--g100)}
-  .nb.active{background:var(--g900);color:#fff}
-  .sep{width:1px;height:24px;background:var(--g200);margin:0 8px;flex-shrink:0}
-
-  .main{padding:24px 32px;max-width:1400px;margin:0 auto}
-  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
-  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
-  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-  .g21{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
-  .g12{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:16px}
-
-  .card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);padding:20px}
-  .card-lbl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--g400);margin-bottom:8px}
-  .card-val{font-size:28px;font-weight:600;color:var(--g900);letter-spacing:-.5px;line-height:1;margin-bottom:6px}
-  .card-val.g{color:var(--green)}.card-val.a{color:var(--amber)}.card-val.b{color:var(--blue)}.card-val.r{color:var(--red)}
-  .card-sub{font-size:12px;color:var(--g400)}
-  .card-sub strong{color:var(--g600)}
-  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:8px}
-  .badge.up{background:var(--green-light);color:var(--green-mid)}
-  .badge.dn{background:var(--red-light);color:var(--red-mid)}
-  .badge.nt{background:var(--g100);color:var(--g600)}
-  .badge.am{background:var(--amber-light);color:var(--amber)}
-  .bt-g{border-top:3px solid var(--green)}
-  .bt-a{border-top:3px solid var(--amber)}
-  .bt-b{border-top:3px solid var(--blue)}
-  .bt-p{border-top:3px solid var(--purple)}
-  .bt-r{border-top:3px solid var(--red)}
-
-  .cc{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);padding:20px}
-  .ct{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--g400);margin-bottom:4px}
-  .cs{font-size:12px;color:var(--g400);margin-bottom:16px}
-  .leg{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap}
-  .li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--g600)}
-  .ld{width:10px;height:10px;border-radius:50%}
-
-  .trim-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);padding:20px}
-  .tl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--g400);margin-bottom:6px}
-  .tv{font-size:22px;font-weight:600;letter-spacing:-.5px;color:var(--g900)}
-  .tbar{height:4px;background:var(--g100);border-radius:4px;margin:10px 0 6px;overflow:hidden}
-  .tbf{height:100%;border-radius:4px}
-  .tm{font-size:11px;color:var(--g400)}
-
-  .abc-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--g100)}
-  .abc-row:last-child{border-bottom:none}
-  .abl{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
-  .al{background:var(--green-light);color:var(--green-mid)}
-  .ab{background:var(--blue-light);color:var(--blue)}
-  .ac{background:var(--amber-light);color:var(--amber)}
-  .ain{flex:1}.an{font-size:13px;font-weight:500;color:var(--g800)}.ad{font-size:11px;color:var(--g400)}
-  .ap{font-size:18px;font-weight:700}
-  .ap.a{color:var(--green)}.ap.b{color:var(--blue)}.ap.c{color:var(--amber)}
-
-  .er{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-  .en{font-size:12px;font-weight:500;color:var(--g700);width:80px;flex-shrink:0}
-  .ebw{flex:1;height:8px;background:var(--g100);border-radius:4px;overflow:hidden}
-  .ebf{height:100%;border-radius:4px;background:var(--green)}
-  .ev{font-size:11px;font-family:'DM Mono',monospace;color:var(--g600);width:64px;text-align:right}
-  .ec{font-size:10px;color:var(--g400);width:40px;text-align:right}
-
-  .pr{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--g100)}
-  .pr:last-child{border-bottom:none}
-  .prk{font-size:11px;font-family:'DM Mono',monospace;color:var(--g400);width:20px;flex-shrink:0}
-  .pn{font-size:12px;font-weight:500;color:var(--g800);flex:1;line-height:1.3}
-  .pbw{width:80px;height:6px;background:var(--g100);border-radius:4px;overflow:hidden;flex-shrink:0}
-  .pbf{height:100%;border-radius:4px;background:var(--green)}
-  .pv{font-size:11px;font-family:'DM Mono',monospace;color:var(--g600);width:60px;text-align:right;flex-shrink:0}
-
-  .fr{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-  .fi{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-  .fin{flex:1}
-  .fn{font-size:12px;font-weight:500;color:var(--g800)}
-  .fbw{width:100%;height:5px;background:var(--g100);border-radius:4px;margin-top:4px;overflow:hidden}
-  .fbf{height:100%;border-radius:4px}
-  .fq{font-size:12px;font-weight:600;color:var(--g700);width:30px;text-align:right;flex-shrink:0}
-  .fv{font-size:11px;font-family:'DM Mono',monospace;color:var(--g400);width:64px;text-align:right;flex-shrink:0}
-
-  .sec{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--g400);margin:24px 0 12px}
-
-  .dw{position:relative;width:160px;height:160px;margin:0 auto}
-  .dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
-  .dp{font-size:26px;font-weight:700;color:var(--g900);line-height:1}
-  .dl{font-size:10px;color:var(--g400);margin-top:2px}
-
-  .ib{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:var(--r);padding:20px;color:#fff}
-  .it{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#64748b;margin-bottom:16px;font-weight:600}
-  .ii{display:flex;gap:10px;margin-bottom:14px}
-  .ii:last-child{margin-bottom:0}
-  .idot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0}
-  .itx{font-size:12px;color:#cbd5e1;line-height:1.6}
-  .itx strong{color:#f1f5f9}
-
-  /* ── RADAR DE RECOMPRA ── */
-  .radar-wrap{background:#fff;border-radius:var(--r);border:1px solid var(--g200);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
-  .radar-head{padding:20px 20px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .radar-head-left h2{font-size:14px;font-weight:600;color:var(--g900);margin-bottom:2px}
-  .radar-head-left p{font-size:12px;color:var(--g400)}
-  .radar-stats{display:flex;gap:16px;flex-wrap:wrap}
-  .rstat{text-align:center;padding:10px 16px;border-radius:8px;min-width:90px}
-  .rstat-n{font-size:22px;font-weight:700;line-height:1}
-  .rstat-l{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-top:4px}
-  .rstat.g{background:var(--green-light)}.rstat.g .rstat-n{color:var(--green)}.rstat.g .rstat-l{color:var(--green-mid)}
-  .rstat.a{background:var(--amber-light)}.rstat.a .rstat-n{color:var(--amber)}.rstat.a .rstat-l{color:#92400e}
-  .rstat.r{background:var(--red-light)}.rstat.r .rstat-n{color:var(--red)}.rstat.r .rstat-l{color:var(--red-mid)}
-  .rstat.media{background:var(--g100)}.rstat.media .rstat-n{color:var(--g800)}.rstat.media .rstat-l{color:var(--g600)}
-
-  .radar-tabs{display:flex;border-bottom:1px solid var(--g200);padding:0 20px}
-  .rtab{border:none;background:none;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;color:var(--g400);border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;transition:all .15s}
-  .rtab:hover{color:var(--g600)}
-  .rtab.active{color:var(--g900);border-bottom-color:var(--g900)}
-  .rtab .badge-sm{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:600}
-  .rtab.rt-g .badge-sm{background:var(--green-light);color:var(--green-mid)}
-  .rtab.rt-a .badge-sm{background:var(--amber-light);color:#92400e}
-  .rtab.rt-r .badge-sm{background:var(--red-light);color:var(--red-mid)}
-
-  .radar-body{padding:0}
-  .radar-panel{display:none}.radar-panel.active{display:block}
-  .radar-table{width:100%;border-collapse:collapse}
-  .radar-table th{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--g400);padding:10px 20px;text-align:left;border-bottom:1px solid var(--g100);white-space:nowrap}
-  .radar-table td{padding:12px 20px;border-bottom:1px solid var(--g100);font-size:13px;color:var(--g800);vertical-align:middle}
-  .radar-table tr:last-child td{border-bottom:none}
-  .radar-table tr:hover td{background:var(--g50)}
-  .cli-name{font-weight:500;color:var(--g900);max-width:200px}
-  .cli-name small{display:block;font-size:11px;color:var(--g400);font-weight:400}
-  .chip{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
-  .chip.g{background:var(--green-light);color:var(--green-mid)}
-  .chip.a{background:var(--amber-light);color:#92400e}
-  .chip.r{background:var(--red-light);color:var(--red-mid)}
-  .progress-cell{width:120px}
-  .prog-bar{height:6px;background:var(--g100);border-radius:3px;overflow:hidden;margin-top:4px}
-  .prog-fill{height:100%;border-radius:3px}
-  .mono{font-family:'DM Mono',monospace;font-size:12px}
-
-  .dist-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:12px 0}
-  .dist-seg{height:100%;transition:width .5s}
-
-  @media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.g21,.g12{grid-template-columns:1fr}.radar-stats{justify-content:center}}
-  @media(max-width:700px){.main{padding:16px}.header,.nav{padding:0 16px}.g4,.g3,.g2{grid-template-columns:1fr}.radar-head{flex-direction:column}}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --green:#1a9e6e;--green-l:#e6f7f1;--green-d:#0f6e4f;
+  --amber:#d97706;--amber-l:#fef3c7;
+  --red:#dc2626;--red-l:#fef2f2;--red-d:#991b1b;
+  --blue:#2563eb;--blue-l:#eff6ff;
+  --purple:#7c3aed;
+  --r:12px;--sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  /* LIGHT */
+  --bg:#f0f2f5;--surface:#fff;--border:#e5e7eb;
+  --t1:#111827;--t2:#4b5563;--t3:#9ca3af;
+  --row-hover:#f9fafb;--input-bg:#f3f4f6;
+}
+[data-theme="dark"]{
+  --bg:#0f172a;--surface:#1e293b;--border:#334155;
+  --t1:#f1f5f9;--t2:#94a3b8;--t3:#64748b;
+  --row-hover:#243044;--input-bg:#0f172a;
+  --green-l:#064e3b;--amber-l:#451a03;--red-l:#450a0a;--blue-l:#1e3a8a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.5;transition:background .2s,color .2s}
+/* HEADER */
+.hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:200}
+.logo{display:flex;align-items:center;gap:10px}
+.lbadge{width:34px;height:34px;background:var(--t1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--surface);font-weight:700;font-size:12px;letter-spacing:.5px}
+.ltxt h1{font-size:14px;font-weight:600;color:var(--t1)}
+.ltxt p{font-size:11px;color:var(--t3)}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.upd{font-size:11px;color:var(--t3);font-family:'DM Mono',monospace}
+.btn{background:var(--t1);color:var(--surface);border:none;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn-ghost{background:var(--input-bg);color:var(--t2);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--border)}
+/* THEME TOGGLE */
+.theme-toggle{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .15s}
+/* NAV */
+.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;gap:4px;overflow-x:auto;height:46px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nb{border:none;background:none;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;color:var(--t2);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s}
+.nb:hover{background:var(--input-bg)}
+.nb.active{background:var(--t1);color:var(--surface)}
+.nsep{width:1px;height:20px;background:var(--border);margin:0 6px;flex-shrink:0}
+/* LAYOUT */
+.main{padding:20px 28px;max-width:1440px;margin:0 auto}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:14px}
+/* CARD */
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);padding:18px}
+.clbl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
+.cval{font-size:26px;font-weight:700;color:var(--t1);letter-spacing:-.5px;line-height:1;margin-bottom:5px}
+.cval.g{color:var(--green)}.cval.a{color:var(--amber)}.cval.b{color:var(--blue)}.cval.r{color:var(--red)}
+.csub{font-size:12px;color:var(--t3)}.csub strong{color:var(--t2)}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:7px}
+.badge.up{background:var(--green-l);color:var(--green-d)}
+.badge.dn{background:var(--red-l);color:var(--red-d)}
+.badge.nt{background:var(--input-bg);color:var(--t2)}
+.badge.am{background:var(--amber-l);color:var(--amber)}
+.bt-g{border-top:3px solid var(--green)}.bt-a{border-top:3px solid var(--amber)}
+.bt-b{border-top:3px solid var(--blue)}.bt-p{border-top:3px solid var(--purple)}.bt-r{border-top:3px solid var(--red)}
+/* CHART CARD */
+.cc{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);padding:18px}
+.ct{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);margin-bottom:3px}
+.cs{font-size:12px;color:var(--t3);margin-bottom:14px}
+.leg{display:flex;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2)}
+.ld{width:9px;height:9px;border-radius:50%}
+/* TRIMESTRE */
+.tc{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);padding:18px}
+.tl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.tv{font-size:20px;font-weight:700;letter-spacing:-.5px;color:var(--t1)}
+.tbar{height:4px;background:var(--input-bg);border-radius:4px;margin:9px 0 5px;overflow:hidden}
+.tbf{height:100%;border-radius:4px}
+.tm{font-size:11px;color:var(--t3)}
+/* SECTION */
+.sec{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin:20px 0 10px}
+/* DONUT */
+.dw{position:relative;width:150px;height:150px;margin:0 auto}
+.dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.dp{font-size:24px;font-weight:700;color:var(--t1);line-height:1}
+.dl{font-size:10px;color:var(--t3);margin-top:2px}
+/* ABC */
+.abcrow{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border)}
+.abcrow:last-child{border-bottom:none}
+.abl{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.al{background:var(--green-l);color:var(--green-d)}.ab{background:var(--blue-l);color:var(--blue)}.ac{background:var(--amber-l);color:var(--amber)}
+.ain{flex:1}.an{font-size:12px;font-weight:500;color:var(--t1)}.ad{font-size:11px;color:var(--t3)}
+.ap{font-size:17px;font-weight:700}.ap.a{color:var(--green)}.ap.b{color:var(--blue)}.ap.c{color:var(--amber)}
+/* ESTADO / PRODUTO / FONTE */
+.er{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.en{font-size:12px;font-weight:500;color:var(--t2);width:36px;flex-shrink:0}
+.ebw{flex:1;height:7px;background:var(--input-bg);border-radius:4px;overflow:hidden}
+.ebf{height:100%;border-radius:4px;background:var(--green)}
+.ev{font-size:11px;font-family:'DM Mono',monospace;color:var(--t2);width:58px;text-align:right}
+.ec{font-size:10px;color:var(--t3);width:38px;text-align:right}
+.pr{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.pr:last-child{border-bottom:none}
+.prk{font-size:11px;font-family:'DM Mono',monospace;color:var(--t3);width:18px;flex-shrink:0}
+.pn{font-size:12px;font-weight:500;color:var(--t1);flex:1;line-height:1.3}
+.pbw{width:70px;height:5px;background:var(--input-bg);border-radius:3px;overflow:hidden;flex-shrink:0}
+.pbf{height:100%;border-radius:3px;background:var(--green)}
+.pv{font-size:11px;font-family:'DM Mono',monospace;color:var(--t2);width:56px;text-align:right;flex-shrink:0}
+.fr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.fi{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.fin{flex:1}.fn{font-size:12px;font-weight:500;color:var(--t1)}
+.fbw{width:100%;height:4px;background:var(--input-bg);border-radius:3px;margin-top:4px;overflow:hidden}
+.fbf{height:100%;border-radius:3px}
+.fq{font-size:12px;font-weight:600;color:var(--t2);width:28px;text-align:right;flex-shrink:0}
+.fv{font-size:11px;font-family:'DM Mono',monospace;color:var(--t3);width:58px;text-align:right;flex-shrink:0}
+/* INSIGHT BOX */
+.ib{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:var(--r);padding:18px;color:#fff}
+.it{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#64748b;margin-bottom:14px;font-weight:600}
+.ii{display:flex;gap:9px;margin-bottom:12px}.ii:last-child{margin-bottom:0}
+.idot{width:5px;height:5px;border-radius:50%;margin-top:7px;flex-shrink:0}
+.itx{font-size:12px;color:#cbd5e1;line-height:1.6}.itx strong{color:#f1f5f9}
+/* RADAR */
+.rwrap{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);margin-bottom:14px;overflow:hidden}
+.rhead{padding:18px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.rhead h2{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.rhead p{font-size:11px;color:var(--t3)}
+.rstats{display:flex;gap:12px;flex-wrap:wrap}
+.rstat{text-align:center;padding:8px 14px;border-radius:8px;min-width:80px}
+.rstat-n{font-size:20px;font-weight:700;line-height:1}
+.rstat-l{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-top:3px}
+.rstat.sg{background:var(--green-l)}.rstat.sg .rstat-n{color:var(--green)}.rstat.sg .rstat-l{color:var(--green-d)}
+.rstat.sa{background:var(--amber-l)}.rstat.sa .rstat-n{color:var(--amber)}.rstat.sa .rstat-l{color:#92400e}
+.rstat.sr{background:var(--red-l)}.rstat.sr .rstat-n{color:var(--red)}.rstat.sr .rstat-l{color:var(--red-d)}
+.rstat.sm{background:var(--input-bg)}.rstat.sm .rstat-n{color:var(--t1)}.rstat.sm .rstat-l{color:var(--t2)}
+.rtabs{display:flex;border-bottom:1px solid var(--border);padding:0 18px;overflow-x:auto}
+.rtab{border:none;background:none;padding:9px 14px;font-size:12px;font-weight:500;cursor:pointer;color:var(--t3);border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+.rtab:hover{color:var(--t2)}.rtab.active{color:var(--t1);border-bottom-color:var(--t1)}
+.rtab .bsm{font-size:10px;padding:1px 5px;border-radius:10px;font-weight:600}
+.rtab.tg .bsm{background:var(--green-l);color:var(--green-d)}
+.rtab.ta .bsm{background:var(--amber-l);color:#92400e}
+.rtab.tr .bsm{background:var(--red-l);color:var(--red-d)}
+.rpanel{display:none}.rpanel.active{display:block}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);padding:9px 16px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface);position:sticky;top:0}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--border);color:var(--t1);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--row-hover)}
+.tbl-wrap{overflow-x:auto;max-height:420px;overflow-y:auto}
+.cliname{font-weight:500;color:var(--t1);max-width:180px}
+.cliname small{display:block;font-size:10px;color:var(--t3);font-weight:400}
+.chip{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600}
+.chip.g{background:var(--green-l);color:var(--green-d)}
+.chip.a{background:var(--amber-l);color:#92400e}
+.chip.r{background:var(--red-l);color:var(--red-d)}
+.chip.b{background:var(--blue-l);color:var(--blue)}
+.chip.nt{background:var(--input-bg);color:var(--t2)}
+.mono{font-family:'DM Mono',monospace;font-size:11px}
+.progc{width:100px}
+.progb{height:5px;background:var(--input-bg);border-radius:3px;overflow:hidden;margin-top:3px}
+.progf{height:100%;border-radius:3px}
+/* FILTROS RASTREAMENTO */
+.filtros{display:flex;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--input-bg)}
+.filtros select,.filtros input{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--t1);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer}
+.filtros select:focus,.filtros input:focus{border-color:var(--green)}
+.flbl{font-size:11px;color:var(--t3);display:flex;align-items:center;margin-right:2px}
+/* DIST BAR */
+.distbar{display:flex;height:7px;border-radius:4px;overflow:hidden;margin:10px 0}
+.dseg{height:100%}
+.distleg{display:flex;gap:10px;flex-wrap:wrap}
+.dli{font-size:10px;color:var(--t3)}
+/* FOOTER */
+.footer{text-align:center;padding:20px 0;font-size:11px;color:var(--t3)}
+/* RESPONSIVE */
+@media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.g21,.g12{grid-template-columns:1fr}}
+@media(max-width:700px){.main{padding:12px}.hdr,.nav{padding:0 12px}.g4,.g3,.g2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="hdr">
   <div class="logo">
-    <div class="logo-badge">IN</div>
-    <div>
-      <h1>INDIVÍDUO</h1>
-      <p>Dashboard Comercial 2026</p>
-    </div>
+    <div class="lbadge">IN</div>
+    <div class="ltxt"><h1>INDIVÍDUO</h1><p>Dashboard Comercial 2026</p></div>
   </div>
-  <div class="header-right">
-    <span class="upd" id="upd">Atualizado 14/04/2026, 21:00</span>
+  <div class="hdr-r">
+    <span class="upd" id="upd">Atualizado 20/04/2026</span>
+    <div class="theme-toggle" onclick="toggleTheme()" title="Alternar tema" id="themeBtn">🌙</div>
     <button class="btn" onclick="location.reload()">↺ Atualizar</button>
   </div>
 </div>
@@ -199,7 +207,7 @@
   <button class="nb" onclick="setM(10,this)">Out</button>
   <button class="nb" onclick="setM(11,this)">Nov</button>
   <button class="nb" onclick="setM(12,this)">Dez</button>
-  <div class="sep"></div>
+  <div class="nsep"></div>
   <button class="nb" onclick="setM('T1',this)">T1</button>
   <button class="nb" onclick="setM('T2',this)">T2</button>
   <button class="nb" onclick="setM('T3',this)">T3</button>
@@ -209,451 +217,551 @@
 
 <div class="main">
 
-  <!-- KPI ROW 1 -->
-  <div class="g4">
-    <div class="card bt-g">
-      <div class="card-lbl">Realizado</div>
-      <div class="badge up" id="bCresc">▲ +32,4%</div>
-      <div class="card-val g" id="kvReal">R$360K</div>
-      <div class="card-sub">Meta: <strong id="kvMeta">R$320K</strong></div>
-    </div>
-    <div class="card bt-a">
-      <div class="card-lbl">Crescimento vs 2025</div>
-      <div class="badge up" id="bCresc2">▲ Acima</div>
-      <div class="card-val a" id="kvCr">+32,4%</div>
-      <div class="card-sub">2025: <strong id="kv25">R$272K</strong></div>
-    </div>
-    <div class="card bt-a">
-      <div class="card-lbl">Ticket médio</div>
-      <div class="badge nt">por pedido</div>
-      <div class="card-val a" id="kvTk">R$1.482</div>
-      <div class="card-sub" id="kvPed">243 pedidos no período</div>
-    </div>
-    <div class="card bt-p">
-      <div class="card-lbl">Meta anual YTD</div>
-      <div class="badge nt">do ano</div>
-      <div class="card-val" id="kvYTD">17,2%</div>
-      <div class="card-sub">YTD: <strong>R$987K</strong> de R$5,74M</div>
-    </div>
+<!-- KPIs LINHA 1 -->
+<div class="g4">
+  <div class="card bt-g">
+    <div class="clbl">Realizado</div>
+    <div class="badge up" id="bCr">▲ +32,4%</div>
+    <div class="cval g" id="kvR">R$360K</div>
+    <div class="csub">Meta: <strong id="kvM">R$320K</strong></div>
   </div>
-
-  <!-- KPI ROW 2 -->
-  <div class="g4">
-    <div class="card">
-      <div class="card-lbl">Total Leads</div>
-      <div class="card-val">22.718</div>
-      <div class="card-sub">no CRM</div>
-    </div>
-    <div class="card">
-      <div class="card-lbl">Clientes ativos</div>
-      <div class="card-val b">1.482</div>
-      <div class="card-sub">Curva A e 60D+</div>
-    </div>
-    <div class="card">
-      <div class="card-lbl">Recompras</div>
-      <div class="card-val a">138</div>
-      <div class="card-sub">clientes recorrentes</div>
-    </div>
-    <div class="card bt-r">
-      <div class="card-lbl">Média de recompra</div>
-      <div class="badge am">⏱ ciclo médio</div>
-      <div class="card-val a">57 dias</div>
-      <div class="card-sub">Mediana: <strong>30 dias</strong> · 717 clientes analisados</div>
-    </div>
+  <div class="card bt-a">
+    <div class="clbl">Crescimento vs 2025</div>
+    <div class="badge up" id="bCr2">▲ Acima</div>
+    <div class="cval a" id="kvC">+32,4%</div>
+    <div class="csub">2025: <strong id="kv5">R$272K</strong></div>
   </div>
-
-  <!-- GRÁFICOS PRINCIPAIS -->
-  <div class="g21">
-    <div class="cc">
-      <div class="ct">Vendas mensais</div>
-      <div class="cs">Realizado vs Meta vs 2025</div>
-      <div class="leg">
-        <div class="li"><div class="ld" style="background:#1a9e6e"></div>2026</div>
-        <div class="li"><div class="ld" style="background:#2563eb"></div>Meta</div>
-        <div class="li"><div class="ld" style="background:#d1d5db"></div>2025</div>
-      </div>
-      <canvas id="cV" height="200"></canvas>
-    </div>
-    <div class="cc" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-      <div class="ct" style="text-align:center">Meta anual</div>
-      <div class="cs" style="text-align:center">YTD · R$987K de R$5,74M</div>
-      <div class="dw" style="margin:12px auto">
-        <canvas id="cM"></canvas>
-        <div class="dc"><div class="dp">17,2%</div><div class="dl">da meta</div></div>
-      </div>
-    </div>
+  <div class="card bt-a">
+    <div class="clbl">Ticket médio</div>
+    <div class="badge nt">por pedido</div>
+    <div class="cval a" id="kvTk">R$1.482</div>
+    <div class="csub" id="kvPd">243 pedidos</div>
   </div>
-
-  <!-- TRIMESTRES -->
-  <div class="g4" style="margin-bottom:0">
-    <div class="trim-card">
-      <div class="tl">Trimestre 01</div>
-      <div class="tv">R$869K</div>
-      <div class="tbar"><div class="tbf" style="width:100%;background:var(--green)"></div></div>
-      <div class="tm">Meta: R$860K · <strong style="color:var(--green)">+1,0%</strong></div>
-    </div>
-    <div class="trim-card">
-      <div class="tl">Trimestre 02</div>
-      <div class="tv">R$118K <span style="font-size:13px;color:var(--g400)">(parcial)</span></div>
-      <div class="tbar"><div class="tbf" style="width:10%;background:var(--amber)"></div></div>
-      <div class="tm">Meta: R$1,18M · Em andamento</div>
-    </div>
-    <div class="trim-card">
-      <div class="tl">Trimestre 03</div>
-      <div class="tv" style="color:var(--g200)">—</div>
-      <div class="tbar"><div class="tbf" style="width:0"></div></div>
-      <div class="tm">Meta: R$1,29M · —</div>
-    </div>
-    <div class="trim-card">
-      <div class="tl">Trimestre 04</div>
-      <div class="tv" style="color:var(--g200)">—</div>
-      <div class="tbar"><div class="tbf" style="width:0"></div></div>
-      <div class="tm">Meta: R$2,41M · —</div>
-    </div>
+  <div class="card bt-p">
+    <div class="clbl">Meta anual YTD</div>
+    <div class="badge nt">do ano</div>
+    <div class="cval" id="kvYTD">19,1%</div>
+    <div class="csub">YTD: <strong>R$1,09M</strong> de R$5,74M</div>
   </div>
-
-  <!-- RADAR DE RECOMPRA -->
-  <div class="sec">Radar de recompra</div>
-  <div class="radar-wrap">
-    <div class="radar-head">
-      <div class="radar-head-left">
-        <h2>Ciclo de recompra por cliente</h2>
-        <p>Análise de Jan/2025–Abr/2026 · 717 clientes com histórico de recompra · Média geral: 57 dias · Mediana: 30 dias</p>
-        <div class="dist-bar" style="width:280px;margin-top:10px" title="Distribuição dos intervalos">
-          <div class="dist-seg" style="width:34%;background:#1a9e6e" title="Até 15 dias: 34%"></div>
-          <div class="dist-seg" style="width:16.4%;background:#60c9a0" title="16–30 dias: 16%"></div>
-          <div class="dist-seg" style="width:17.6%;background:#fbbf24" title="31–60 dias: 18%"></div>
-          <div class="dist-seg" style="width:10%;background:#f97316" title="61–90 dias: 10%"></div>
-          <div class="dist-seg" style="width:21.9%;background:#ef4444" title="+90 dias: 22%"></div>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:6px;flex-wrap:wrap">
-          <span style="font-size:10px;color:var(--g400)"><span style="color:#1a9e6e">■</span> Até 15d: 34%</span>
-          <span style="font-size:10px;color:var(--g400)"><span style="color:#60c9a0">■</span> 16–30d: 16%</span>
-          <span style="font-size:10px;color:var(--g400)"><span style="color:#fbbf24">■</span> 31–60d: 18%</span>
-          <span style="font-size:10px;color:var(--g400)"><span style="color:#f97316">■</span> 61–90d: 10%</span>
-          <span style="font-size:10px;color:var(--g400)"><span style="color:#ef4444">■</span> +90d: 22%</span>
-        </div>
-      </div>
-      <div class="radar-stats">
-        <div class="rstat media">
-          <div class="rstat-n">57d</div>
-          <div class="rstat-l">Média geral</div>
-        </div>
-        <div class="rstat g">
-          <div class="rstat-n">269</div>
-          <div class="rstat-l">No padrão</div>
-        </div>
-        <div class="rstat a">
-          <div class="rstat-n">76</div>
-          <div class="rstat-l">Oportunidade</div>
-        </div>
-        <div class="rstat r">
-          <div class="rstat-n">372</div>
-          <div class="rstat-l">Crítico</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="radar-tabs">
-      <button class="rtab rt-g active" onclick="switchTab('padrao',this)">
-        ✓ Dentro do padrão <span class="badge-sm">269</span>
-      </button>
-      <button class="rtab rt-a" onclick="switchTab('oportunidade',this)">
-        ⏰ Oportunidade <span class="badge-sm">76</span>
-      </button>
-      <button class="rtab rt-r" onclick="switchTab('critico',this)">
-        🔴 Crítico <span class="badge-sm">372</span>
-      </button>
-    </div>
-
-    <div class="radar-body">
-
-      <!-- PADRÃO -->
-      <div id="tab-padrao" class="radar-panel active">
-        <table class="radar-table">
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Última compra</th>
-              <th>Dias sem comprar</th>
-              <th>Ciclo médio</th>
-              <th>Progresso do ciclo</th>
-              <th>Compras</th>
-              <th>Valor histórico</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-padrao"></tbody>
-        </table>
-      </div>
-
-      <!-- OPORTUNIDADE -->
-      <div id="tab-oportunidade" class="radar-panel">
-        <table class="radar-table">
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Última compra</th>
-              <th>Dias sem comprar</th>
-              <th>Ciclo médio</th>
-              <th>Progresso do ciclo</th>
-              <th>Compras</th>
-              <th>Valor histórico</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-oportunidade"></tbody>
-        </table>
-      </div>
-
-      <!-- CRÍTICO -->
-      <div id="tab-critico" class="radar-panel">
-        <table class="radar-table">
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Última compra</th>
-              <th>Dias sem comprar</th>
-              <th>Ciclo médio</th>
-              <th>Desvio do padrão</th>
-              <th>Compras</th>
-              <th>Valor em risco</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-critico"></tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- CURVA ABC + ESTADOS -->
-  <div class="g12">
-    <div class="cc">
-      <div class="ct">Curva ABC — Clientes</div>
-      <div class="cs">Jan–Abr 2026 · 491 clientes ativos</div>
-      <div style="margin:16px 0 8px"><canvas id="cA" height="160"></canvas></div>
-      <div class="abc-row">
-        <div class="abl al">A</div>
-        <div class="ain"><div class="an">23 clientes · Varejo: 13 · Atacado: 10</div><div class="ad">Alta frequência</div></div>
-        <div class="ap a">19,6%</div>
-      </div>
-      <div class="abc-row">
-        <div class="abl ab">B</div>
-        <div class="ain"><div class="an">101 clientes · Varejo: 61 · Atacado: 40</div><div class="ad">Potencial de upgrade</div></div>
-        <div class="ap b">30,3%</div>
-      </div>
-      <div class="abc-row">
-        <div class="abl ac">C</div>
-        <div class="ain"><div class="an">367 clientes · Varejo: 257 · Atacado: 110</div><div class="ad">Alvo de reativação</div></div>
-        <div class="ap c">50,1%</div>
-      </div>
-    </div>
-    <div class="cc">
-      <div class="ct">Clientes por estado</div>
-      <div class="cs">Faturamento Jan–13Abr 2026</div>
-      <div style="margin-top:12px" id="estados"></div>
-    </div>
-  </div>
-
-  <!-- PRODUTOS + FONTES -->
-  <div class="g2">
-    <div class="cc">
-      <div class="ct">Top 10 produtos</div>
-      <div class="cs">Por faturamento · Jan–13Abr 2026</div>
-      <div style="margin-top:12px" id="produtos"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr;gap:16px">
-      <div class="cc">
-        <div class="ct">Fontes de aquisição</div>
-        <div class="cs">Compras rastreadas Jan–Abr 2026</div>
-        <div style="margin-top:16px" id="fontes"></div>
-      </div>
-      <div class="ib">
-        <div class="it">Insights estratégicos</div>
-        <div class="ii"><div class="idot" style="background:#1a9e6e"></div><div class="itx"><strong>437 clientes compraram 1x</strong> — R$548K em receita potencial de recompra. Prioridade máxima do pós-venda.</div></div>
-        <div class="ii"><div class="idot" style="background:#ef4444"></div><div class="itx"><strong>Tereza Galvão</strong> está 594% além do ciclo médio. Histórico de R$159K — contato urgente.</div></div>
-        <div class="ii"><div class="idot" style="background:#fbbf24"></div><div class="itx"><strong>Andreza Livia</strong> está no ponto exato de recompra (99% do ciclo). R$105K de histórico — contato agora.</div></div>
-        <div class="ii"><div class="idot" style="background:#3b82f6"></div><div class="itx"><strong>Nordeste concentra 85%</strong> do faturamento. PE + BA + SE + RN = top 4 estados.</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div style="text-align:center;padding:24px 0;font-size:11px;color:var(--g400)">Indivíduo · Dashboard 2026 · Atualizado em 14/04/2026 · BeWay Assessoria</div>
 </div>
 
+<!-- KPIs LINHA 2 -->
+<div class="g4">
+  <div class="card">
+    <div class="clbl">Total Leads</div>
+    <div class="cval">22.718</div>
+    <div class="csub">no CRM</div>
+  </div>
+  <div class="card">
+    <div class="clbl">Clientes ativos</div>
+    <div class="cval b">1.482</div>
+    <div class="csub">Curva A e 60D+</div>
+  </div>
+  <div class="card">
+    <div class="clbl">Recompras</div>
+    <div class="cval a">138</div>
+    <div class="csub">clientes recorrentes</div>
+  </div>
+  <div class="card bt-r">
+    <div class="clbl">Ciclo médio de recompra</div>
+    <div class="badge am">⏱ calculado</div>
+    <div class="cval a">58 dias</div>
+    <div class="csub">Mediana: <strong>30 dias</strong> · 717 clientes</div>
+  </div>
+</div>
+
+<!-- GRÁFICO PRINCIPAL + DONUT -->
+<div class="g21">
+  <div class="cc">
+    <div class="ct">Vendas mensais</div>
+    <div class="cs">Realizado vs Meta vs 2025</div>
+    <div class="leg">
+      <div class="li"><div class="ld" style="background:#1a9e6e"></div>2026</div>
+      <div class="li"><div class="ld" style="background:#2563eb"></div>Meta</div>
+      <div class="li"><div class="ld" style="background:#9ca3af"></div>2025</div>
+    </div>
+    <canvas id="cV" height="190"></canvas>
+  </div>
+  <div class="cc" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <div class="ct" style="text-align:center">Meta anual</div>
+    <div class="cs" style="text-align:center">YTD · R$1,09M de R$5,74M</div>
+    <div class="dw" style="margin:10px auto">
+      <canvas id="cM"></canvas>
+      <div class="dc"><div class="dp">19,1%</div><div class="dl">da meta</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TRIMESTRES -->
+<div class="g4">
+  <div class="tc">
+    <div class="tl">Trimestre 01</div>
+    <div class="tv">R$869K</div>
+    <div class="tbar"><div class="tbf" style="width:100%;background:var(--green)"></div></div>
+    <div class="tm">Meta: R$860K · <strong style="color:var(--green)">+1,0%</strong></div>
+  </div>
+  <div class="tc">
+    <div class="tl">Trimestre 02</div>
+    <div class="tv">R$227K <span style="font-size:12px;color:var(--t3)">(parcial)</span></div>
+    <div class="tbar"><div class="tbf" style="width:19%;background:var(--amber)"></div></div>
+    <div class="tm">Meta: R$1,18M · Em andamento</div>
+  </div>
+  <div class="tc">
+    <div class="tl">Trimestre 03</div>
+    <div class="tv" style="color:var(--border)">—</div>
+    <div class="tbar"><div class="tbf" style="width:0"></div></div>
+    <div class="tm">Meta: R$1,29M · —</div>
+  </div>
+  <div class="tc">
+    <div class="tl">Trimestre 04</div>
+    <div class="tv" style="color:var(--border)">—</div>
+    <div class="tbar"><div class="tbf" style="width:0"></div></div>
+    <div class="tm">Meta: R$2,41M · —</div>
+  </div>
+</div>
+
+<!-- RADAR DE RECOMPRA -->
+<div class="sec">Radar de recompra</div>
+<div class="rwrap">
+  <div class="rhead">
+    <div>
+      <h2>Ciclo de recompra por cliente</h2>
+      <p>Jan/2025–20Abr/2026 · 717 clientes analisados · Média: 58 dias · Mediana: 30 dias</p>
+      <div class="distbar" style="width:260px;margin-top:8px">
+        <div class="dseg" style="width:34%;background:#1a9e6e"></div>
+        <div class="dseg" style="width:16%;background:#60c9a0"></div>
+        <div class="dseg" style="width:18%;background:#fbbf24"></div>
+        <div class="dseg" style="width:10%;background:#f97316"></div>
+        <div class="dseg" style="width:22%;background:#ef4444"></div>
+      </div>
+      <div class="distleg" style="margin-top:5px">
+        <span class="dli"><span style="color:#1a9e6e">■</span> Até 15d 34%</span>
+        <span class="dli"><span style="color:#60c9a0">■</span> 16–30d 16%</span>
+        <span class="dli"><span style="color:#fbbf24">■</span> 31–60d 18%</span>
+        <span class="dli"><span style="color:#f97316">■</span> 61–90d 10%</span>
+        <span class="dli"><span style="color:#ef4444">■</span> +90d 22%</span>
+      </div>
+    </div>
+    <div class="rstats">
+      <div class="rstat sm"><div class="rstat-n">58d</div><div class="rstat-l">Média</div></div>
+      <div class="rstat sg"><div class="rstat-n">277</div><div class="rstat-l">No padrão</div></div>
+      <div class="rstat sa"><div class="rstat-n">77</div><div class="rstat-l">Oportunidade</div></div>
+      <div class="rstat sr"><div class="rstat-n">374</div><div class="rstat-l">Crítico</div></div>
+    </div>
+  </div>
+  <div class="rtabs">
+    <button class="rtab tg active" onclick="swTab('pad',this)">✓ No padrão <span class="bsm">277</span></button>
+    <button class="rtab ta" onclick="swTab('opp',this)">⏰ Oportunidade <span class="bsm">77</span></button>
+    <button class="rtab tr" onclick="swTab('cri',this)">🔴 Crítico <span class="bsm">374</span></button>
+  </div>
+  <div id="tab-pad" class="rpanel active"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Cliente</th><th>Última compra</th><th>Dias sem comprar</th><th>Ciclo médio</th><th>Progresso</th><th>Compras</th><th>Valor histórico</th></tr></thead><tbody id="tb-pad"></tbody></table></div></div>
+  <div id="tab-opp" class="rpanel"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Cliente</th><th>Última compra</th><th>Dias sem comprar</th><th>Ciclo médio</th><th>Progresso</th><th>Compras</th><th>Valor histórico</th></tr></thead><tbody id="tb-opp"></tbody></table></div></div>
+  <div id="tab-cri" class="rpanel"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Cliente</th><th>Última compra</th><th>Dias sem comprar</th><th>Ciclo médio</th><th>Desvio</th><th>Compras</th><th>Valor em risco</th></tr></thead><tbody id="tb-cri"></tbody></table></div></div>
+</div>
+
+<!-- RASTREAMENTO POR CANAL -->
+<div class="sec">Rastreamento por canal — Jan a 10/Abr (Abr 11–20 em breve)</div>
+<div class="rwrap">
+  <div class="rhead" style="padding-bottom:8px">
+    <div>
+      <h2>Origem das compras rastreadas</h2>
+      <p>219 registros · Jan, Fev e Abr 01–10 · Preenchimento manual em andamento</p>
+    </div>
+    <div class="rstats">
+      <div class="rstat sg"><div class="rstat-n">77</div><div class="rstat-l">Link Bio</div></div>
+      <div class="rstat sm"><div class="rstat-n">60</div><div class="rstat-l">WhatsApp</div></div>
+      <div class="rstat sm"><div class="rstat-n">48</div><div class="rstat-l">Direto</div></div>
+      <div class="rstat sm"><div class="rstat-n">12</div><div class="rstat-l">Google</div></div>
+    </div>
+  </div>
+  <div class="filtros">
+    <span class="flbl">Mês:</span>
+    <select id="fMes" onchange="filterLeads()">
+      <option value="">Todos</option>
+      <option value="jan">Janeiro</option>
+      <option value="fev">Fevereiro</option>
+      <option value="abr">Abril (01–10)</option>
+    </select>
+    <span class="flbl">Fonte:</span>
+    <select id="fFonte" onchange="filterLeads()">
+      <option value="">Todas</option>
+      <option value="link_in_bio">link_in_bio</option>
+      <option value="Whatsapp">Whatsapp</option>
+      <option value="(direct)">(direct)</option>
+      <option value="google">google</option>
+      <option value="Google > Instagram">Google &gt; Instagram</option>
+      <option value="App Moda Center">App Moda Center</option>
+      <option value="Tráfego WAB">Tráfego WAB</option>
+      <option value="Dúvida">Dúvida</option>
+    </select>
+    <span class="flbl">Pelo tráfego:</span>
+    <select id="fTrafego" onchange="filterLeads()">
+      <option value="">Todos</option>
+      <option value="Sim">Sim</option>
+      <option value="Sim (Remarketing)">Sim (Remarketing)</option>
+      <option value="RMKT">RMKT</option>
+      <option value="Não">Não</option>
+      <option value="Dúvida">Dúvida</option>
+    </select>
+    <span class="flbl">Cliente:</span>
+    <input type="text" id="fCliente" placeholder="Buscar nome..." oninput="filterLeads()" style="width:160px">
+    <button class="btn-ghost btn" onclick="clearFilters()">Limpar</button>
+    <span style="font-size:11px;color:var(--t3);align-self:center" id="fCount">219 registros</span>
+  </div>
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr>
+        <th>Data</th><th>Pedido</th><th>Cliente</th><th>Email</th>
+        <th>Fonte</th><th>Pelo Tráfego</th><th>Compras mês</th><th>Valor</th><th>No CRM</th>
+      </tr></thead>
+      <tbody id="tb-leads"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CURVA ABC + ESTADOS -->
+<div class="g12">
+  <div class="cc">
+    <div class="ct">Curva ABC — Clientes</div>
+    <div class="cs">Jan–20Abr 2026 · 491 clientes ativos</div>
+    <div style="margin:14px 0 8px"><canvas id="cA" height="150"></canvas></div>
+    <div class="abcrow"><div class="abl al">A</div><div class="ain"><div class="an">23 · Varejo 13 · Atacado 10</div><div class="ad">Alta frequência</div></div><div class="ap a">19,6%</div></div>
+    <div class="abcrow"><div class="abl ab">B</div><div class="ain"><div class="an">101 · Varejo 61 · Atacado 40</div><div class="ad">Potencial de upgrade</div></div><div class="ap b">30,3%</div></div>
+    <div class="abcrow"><div class="abl ac">C</div><div class="ain"><div class="an">367 · Varejo 257 · Atacado 110</div><div class="ad">Alvo de reativação</div></div><div class="ap c">50,1%</div></div>
+  </div>
+  <div class="cc">
+    <div class="ct">Clientes por estado</div>
+    <div class="cs">Faturamento Jan–20Abr 2026</div>
+    <div style="margin-top:10px" id="elEstados"></div>
+  </div>
+</div>
+
+<!-- PRODUTOS + FONTES -->
+<div class="g2">
+  <div class="cc">
+    <div class="ct">Top 10 produtos</div>
+    <div class="cs">Por faturamento · Jan–20Abr 2026</div>
+    <div style="margin-top:10px" id="elProdos"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr;gap:14px">
+    <div class="cc">
+      <div class="ct">Fontes de aquisição</div>
+      <div class="cs">Compras rastreadas Jan–10Abr 2026</div>
+      <div style="margin-top:14px" id="elFontes"></div>
+    </div>
+    <div class="ib">
+      <div class="it">Insights estratégicos</div>
+      <div class="ii"><div class="idot" style="background:#1a9e6e"></div><div class="itx"><strong>Tereza Galvão voltou</strong> — comprou na segunda quinzena de abril. Era crítica, agora está no padrão. Prova que o pós-venda funciona.</div></div>
+      <div class="ii"><div class="idot" style="background:#ef4444"></div><div class="itx"><strong>Andreza Livia (R$105K)</strong> e PINGO DE GENTE (R$58K) passaram para crítico. Contato urgente essa semana.</div></div>
+      <div class="ii"><div class="idot" style="background:#fbbf24"></div><div class="itx"><strong>Abril 01–20 = R$227K</strong>. Ritmo de R$340K/mês projetado — acima dos R$315K de meta.</div></div>
+      <div class="ii"><div class="idot" style="background:#3b82f6"></div><div class="itx"><strong>Instagram (link bio)</strong> lidera com 77 compras e R$98K. Conteúdo orgânico entrega mais que tráfego pago rastreado.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Indivíduo · Dashboard 2026 · BeWay Assessoria · Atualizado 20/04/2026</div>
+</div><!-- /main -->
+
 <script>
-// ─── DADOS ───────────────────────────────────────────────────────────────────
-const V={1:{n:'Jan',v25:272081,v26:360144,m:320095,p:243,tk:1482},2:{n:'Fev',v25:234454,v26:236334,m:271275,p:168,tk:1407},3:{n:'Mar',v25:225118,v26:272996,m:269025,p:229,tk:1192},4:{n:'Abr',v25:280619,v26:117644,m:315548,p:93,tk:1265},5:{n:'Mai',v25:375929,v26:0,m:442269,p:0,tk:0},6:{n:'Jun',v25:356799,v26:0,m:419034,p:0,tk:0},7:{n:'Jul',v25:354052,v26:0,m:422901,p:0,tk:0},8:{n:'Ago',v25:298168,v26:0,m:351796,p:0,tk:0},9:{n:'Set',v25:483709,v26:0,m:517463,p:0,tk:0},10:{n:'Out',v25:502923,v26:0,m:598078,p:0,tk:0},11:{n:'Nov',v25:787199,v26:0,m:936535,p:0,tk:0},12:{n:'Dez',v25:740807,v26:0,m:872200,p:0,tk:0}};
-const T={T1:[1,2,3],T2:[4,5,6],T3:[7,8,9],T4:[10,11,12]};
+// ─── DADOS ────────────────────────────────────────────────────────────────────
+const V={1:{n:'Jan',v25:272081,v26:360144,m:320095,p:243,tk:1482},2:{n:'Fev',v25:234454,v26:236334,m:271275,p:168,tk:1407},3:{n:'Mar',v25:225118,v26:272996,m:269025,p:229,tk:1192},4:{n:'Abr',v25:280619,v26:227214,m:315548,p:166,tk:1369},5:{n:'Mai',v25:375929,v26:0,m:442269,p:0,tk:0},6:{n:'Jun',v25:356799,v26:0,m:419034,p:0,tk:0},7:{n:'Jul',v25:354052,v26:0,m:422901,p:0,tk:0},8:{n:'Ago',v25:298168,v26:0,m:351796,p:0,tk:0},9:{n:'Set',v25:483709,v26:0,m:517463,p:0,tk:0},10:{n:'Out',v25:502923,v26:0,m:598078,p:0,tk:0},11:{n:'Nov',v25:787199,v26:0,m:936535,p:0,tk:0},12:{n:'Dez',v25:740807,v26:0,m:872200,p:0,tk:0}};
+const TR={T1:[1,2,3],T2:[4,5,6],T3:[7,8,9],T4:[10,11,12]};
+const META_ANUAL=5736221;
+const YTD=1096688;
 
 const CRITICOS=[
-  ['Tereza Galvão',{media:16.5,ultima:'06/01/2026',dias:98,compras:23,valor:159504,pct:594}],
-  ['Kelvi da silva félix',{media:17.8,ultima:'18/03/2026',dias:27,compras:25,valor:71475,pct:151}],
-  ['SONHAR E CRESCER KIDS',{media:10.9,ultima:'24/02/2026',dias:49,compras:21,valor:43392,pct:450}],
-  ['Carla Dutra',{media:14.6,ultima:'04/02/2026',dias:69,compras:28,valor:39313,pct:474}],
-  ['RONEY FEITOSA DE PAULA',{media:14.1,ultima:'15/01/2026',dias:89,compras:19,valor:35648,pct:633}],
-  ['ALEX SOUZA',{media:59.5,ultima:'22/01/2026',dias:82,compras:7,valor:32451,pct:138}],
-  ['OUSADIA TEENS LTDA',{media:52.4,ultima:'12/01/2026',dias:92,compras:8,valor:28438,pct:175}],
-  ['VANESSA FONTES CHAGAS AZEVEDO',{media:56.0,ultima:'17/12/2025',dias:118,compras:6,valor:28351,pct:211}],
-  ['Rita Bahia',{media:108.0,ultima:'04/12/2025',dias:131,compras:4,valor:26276,pct:121}],
-  ['BALAO MAGICO',{media:21.0,ultima:'12/01/2026',dias:92,compras:17,valor:25719,pct:438}],
-  ['Renata Santiago',{media:31.5,ultima:'27/01/2026',dias:77,compras:13,valor:25545,pct:244}],
-  ['KARINE CALCADOS E CONFECCOES',{media:49.1,ultima:'12/02/2026',dias:61,compras:9,valor:25091,pct:124}],
-  ['MARCOS APARECIDO LIMA DAMACENO',{media:35.3,ultima:'09/12/2025',dias:126,compras:4,valor:24855,pct:357}],
-  ['DRIELLY DA SILVA ALMEIDA',{media:16.3,ultima:'18/12/2025',dias:117,compras:13,valor:22674,pct:716}],
-  ['AnaPaula Armando',{media:21.4,ultima:'11/03/2026',dias:34,compras:18,valor:22664,pct:159}],
+  ['Andreza Livia Gomes Figueiredo Maciel',{media:19.2,ultima:'26/03/2026',dias:25,compras:24,valor:105437,pct:130}],
+  ['PINGO DE GENTE CAICO',{media:23.1,ultima:'19/03/2026',dias:32,compras:19,valor:58076,pct:139}],
+  ['SONHAR E CRESCER KIDS',{media:10.9,ultima:'24/02/2026',dias:55,compras:21,valor:43392,pct:505}],
+  ['Carla Dutra',{media:14.6,ultima:'04/02/2026',dias:75,compras:28,valor:39313,pct:515}],
+  ['RONEY FEITOSA DE PAULA',{media:14.1,ultima:'15/01/2026',dias:95,compras:19,valor:35648,pct:676}],
+  ['ALEX SOUZA',{media:59.5,ultima:'22/01/2026',dias:88,compras:7,valor:32451,pct:148}],
+  ['OUSADIA TEENS LTDA',{media:52.4,ultima:'12/01/2026',dias:98,compras:8,valor:28438,pct:187}],
+  ['VANESSA FONTES CHAGAS AZEVEDO',{media:56.0,ultima:'17/12/2025',dias:124,compras:6,valor:28351,pct:221}],
+  ['Rita Bahia',{media:108.0,ultima:'04/12/2025',dias:137,compras:4,valor:26276,pct:127}],
+  ['BALAO MAGICO',{media:21.0,ultima:'12/01/2026',dias:98,compras:17,valor:25719,pct:467}],
+  ['Renata Santiago',{media:31.5,ultima:'27/01/2026',dias:83,compras:13,valor:25545,pct:263}],
+  ['KARINE CALCADOS E CONFECCOES',{media:49.1,ultima:'12/02/2026',dias:67,compras:9,valor:25091,pct:137}],
+  ['MARCOS APARECIDO LIMA DAMACENO',{media:35.3,ultima:'09/12/2025',dias:132,compras:4,valor:24855,pct:374}],
+  ['DRIELLY DA SILVA ALMEIDA',{media:16.3,ultima:'18/12/2025',dias:123,compras:13,valor:22674,pct:755}],
+  ['AnaPaula Armando',{media:21.4,ultima:'11/03/2026',dias:40,compras:18,valor:22664,pct:187}],
   ['Diego Lima',{media:35.3,ultima:'26/02/2026',dias:47,compras:4,valor:18090,pct:133}],
-  ['Luciano Souza borges',{media:21.9,ultima:'20/01/2026',dias:84,compras:15,valor:17849,pct:383}],
-  ['Elitania Bezerra',{media:27.5,ultima:'25/02/2026',dias:48,compras:16,valor:17519,pct:174}],
+  ['Luciano Souza borges',{media:21.9,ultima:'20/01/2026',dias:90,compras:15,valor:17849,pct:411}],
+  ['Elitania Bezerra',{media:27.5,ultima:'25/02/2026',dias:54,compras:16,valor:17519,pct:196}],
 ];
-const OPORTUNIDADES=[
-  ['Andreza Livia Gomes Figueiredo Maciel',{media:19.2,ultima:'26/03/2026',dias:19,compras:24,valor:105437,pct:99}],
-  ['PINGO DE GENTE CAICO',{media:23.1,ultima:'19/03/2026',dias:26,compras:19,valor:58076,pct:113}],
-  ['Thayná Arroxelas',{media:25.2,ultima:'18/03/2026',dias:27,compras:18,valor:21816,pct:107}],
-  ['SANTOS & COSTA CONFECCAO LTDA',{media:86.7,ultima:'13/01/2026',dias:91,compras:4,valor:21645,pct:105}],
-  ['MARIANA REIMBERG BORGES',{media:80.5,ultima:'13/01/2026',dias:91,compras:5,valor:20984,pct:113}],
-  ['Bs artigos de confeccoes ltda',{media:64.8,ultima:'06/02/2026',dias:67,compras:6,valor:19803,pct:103}],
-  ['Meu Garotoo Moda Infantil e Juvenil',{media:53.7,ultima:'25/02/2026',dias:48,compras:7,valor:14784,pct:89}],
-  ['VALDIRENE GAMA SILVA',{media:29.9,ultima:'10/03/2026',dias:35,compras:15,valor:13675,pct:117}],
-  ['JOSIDEG DINIZ DA COSTA',{media:60.5,ultima:'02/02/2026',dias:71,compras:7,valor:13039,pct:117}],
-  ['Leticia Lima',{media:32.0,ultima:'11/03/2026',dias:34,compras:6,valor:12230,pct:106}],
-  ['Rafaella Yslane Lima do N Moura',{media:29.0,ultima:'20/03/2026',dias:25,compras:16,valor:11771,pct:86}],
-  ['Kaiky imports',{media:41.5,ultima:'26/02/2026',dias:47,compras:11,valor:11362,pct:113}],
-  ['Joicy Alves',{media:41.9,ultima:'03/03/2026',dias:42,compras:11,valor:10432,pct:100}],
-  ['Epaminondas Ramos',{media:98.0,ultima:'06/01/2026',dias:98,compras:4,valor:8729,pct:100}],
-  ['LDR OLIVEIRA MODAS',{media:88.5,ultima:'13/01/2026',dias:91,compras:5,valor:8279,pct:103}],
+const OPPS=[
+  ['ALBERTO DUNDA FERREIRA',{media:23.8,ultima:'25/03/2026',dias:26,compras:19,valor:29040,pct:109}],
+  ['Rosy Trindade',{media:92.8,ultima:'29/01/2026',dias:82,compras:5,valor:22266,pct:88}],
+  ['SANTOS & COSTA CONFECCAO LTDA',{media:86.7,ultima:'13/01/2026',dias:97,compras:4,valor:21645,pct:112}],
+  ['Bs artigos de confeccoes ltda',{media:64.8,ultima:'06/02/2026',dias:73,compras:6,valor:19803,pct:113}],
+  ['Meu Garotoo Moda Infantil Juvenil',{media:53.7,ultima:'25/02/2026',dias:54,compras:7,valor:14784,pct:101}],
+  ['VALDIRENE GAMA SILVA',{media:29.9,ultima:'10/03/2026',dias:41,compras:15,valor:13675,pct:137}],
+  ['JOSIDEG DINIZ DA COSTA',{media:60.5,ultima:'02/02/2026',dias:77,compras:7,valor:13039,pct:127}],
+  ['Leticia Lima',{media:32.0,ultima:'11/03/2026',dias:40,compras:6,valor:12230,pct:125}],
+  ['Rafaella Yslane Lima do N Moura',{media:29.0,ultima:'20/03/2026',dias:31,compras:16,valor:11771,pct:107}],
+  ['Kaiky imports',{media:41.5,ultima:'26/02/2026',dias:53,compras:11,valor:11362,pct:128}],
+  ['Joicy Alves',{media:41.9,ultima:'03/03/2026',dias:48,compras:11,valor:10432,pct:115}],
+  ['Epaminondas Ramos',{media:98.0,ultima:'06/01/2026',dias:104,compras:4,valor:8729,pct:106}],
+  ['LDR OLIVEIRA MODAS',{media:88.5,ultima:'13/01/2026',dias:97,compras:5,valor:8279,pct:110}],
+  ['MANOELLA NAYARA CORREIA',{media:128.0,ultima:'27/11/2025',dias:144,compras:2,valor:6218,pct:113}],
 ];
 const PADRAO=[
-  ['Nadyanne Albuquerque',{media:13.2,ultima:'08/04/2026',dias:6,compras:35,valor:175653,pct:45}],
-  ['MARCELA CONFECCOES',{media:18.5,ultima:'01/04/2026',dias:13,compras:24,valor:96506,pct:70}],
-  ['Raiane louisy Moraes de carvalho',{media:6.3,ultima:'09/04/2026',dias:5,compras:74,valor:72652,pct:80}],
-  ['Maria do Socorro Lima',{media:9.2,ultima:'09/04/2026',dias:5,compras:50,valor:44441,pct:54}],
-  ['Maria Jeisce Santos da Silva',{media:16.3,ultima:'08/04/2026',dias:6,compras:29,valor:39132,pct:37}],
-  ['Maria Ozanira confecções',{media:88.0,ultima:'05/02/2026',dias:68,compras:5,valor:38217,pct:77}],
-  ['Maria Aline Nascimento',{media:38.7,ultima:'01/04/2026',dias:13,compras:12,valor:36616,pct:34}],
-  ['GOES S COSTA MODA INFANTIL LTDA',{media:33.5,ultima:'26/03/2026',dias:19,compras:14,valor:35820,pct:57}],
-  ['Jovens kids',{media:22.8,ultima:'07/04/2026',dias:7,compras:21,valor:34722,pct:31}],
-  ['ALBERTO DUNDA FERREIRA',{media:23.8,ultima:'25/03/2026',dias:20,compras:19,valor:29040,pct:84}],
+  ['Nadyanne Albuquerque',{media:13.1,ultima:'16/04/2026',dias:4,compras:35,valor:183969,pct:31}],
+  ['Tereza Galvão',{media:18.5,ultima:'15/04/2026',dias:5,compras:24,valor:166370,pct:27}],
+  ['MARCELA CONFECCOES',{media:18.3,ultima:'14/04/2026',dias:6,compras:24,valor:99292,pct:33}],
+  ['Kelvi da silva félix',{media:18.3,ultima:'16/04/2026',dias:4,compras:25,valor:74520,pct:22}],
+  ['Raiane louisy Moraes de carvalho',{media:6.3,ultima:'16/04/2026',dias:4,compras:74,valor:74021,pct:64}],
+  ['Maria do Socorro Lima',{media:9.2,ultima:'16/04/2026',dias:4,compras:50,valor:45790,pct:43}],
+  ['Maria Jeisce Santos da Silva',{media:16.3,ultima:'15/04/2026',dias:5,compras:29,valor:40131,pct:31}],
+  ['Maria Aline Nascimento',{media:38.7,ultima:'07/04/2026',dias:13,compras:12,valor:36616,pct:34}],
+  ['GOES S COSTA MODA INFANTIL LTDA',{media:33.5,ultima:'07/04/2026',dias:13,compras:14,valor:35820,pct:39}],
+  ['Jovens kids',{media:22.8,ultima:'14/04/2026',dias:6,compras:21,valor:35721,pct:26}],
 ];
 
 const ESTADOS=[
-  {n:'PE',v:165999,c:83},{n:'BA',v:163459,c:91},{n:'SE',v:141503,c:43},
-  {n:'RN',v:126161,c:63},{n:'PB',v:99184,c:47},{n:'AL',v:57161,c:36},
-  {n:'PI',v:54323,c:20},{n:'MA',v:33591,c:25},{n:'ES',v:30690,c:10},
-  {n:'CE',v:29868,c:15},{n:'MG',v:29569,c:20},
+  {n:'PE',v:190688,c:94},{n:'BA',v:179570,c:99},{n:'SE',v:160242,c:50},
+  {n:'RN',v:136228,c:73},{n:'PB',v:116848,c:57},{n:'AL',v:65087,c:42},
+  {n:'PI',v:61477,c:26},{n:'MA',v:36639,c:28},{n:'MS',v:33870,c:11},
+  {n:'ES',v:33476,c:11},{n:'CE',v:29868,c:15},{n:'MG',v:29569,c:20},
 ];
 const PRODS=[
-  {n:'Gola Careca Básica Infantil',v:98586},{n:'Camiseta Machão Lisa Inf./Juv.',v:95610},
-  {n:'Gola Careca Básica Juvenil',v:54925},{n:'Short Tactel Liso Infantil',v:48786},
-  {n:'Short Tactel Estampado Infantil',v:48470},{n:'Bermuda Brim c/ Torçal Inf.',v:43864},
-  {n:'Short Tactel Liso Juvenil',v:36728},{n:'Short Verano Infantil',v:35564},
-  {n:'Short Tactel Estampado Juvenil',v:33249},{n:'Camisa Gola Polo Infantil',v:28006},
+  {n:'Gola Careca Básica Infantil',v:105614},{n:'Camiseta Machão Lisa Inf./Juv.',v:101002},
+  {n:'Camisa Xadrez Essential MC Inf.',v:62000},{n:'Gola Careca Básica Juvenil',v:54925},
+  {n:'Short Tactel Liso Infantil',v:48786},{n:'Short Tactel Estampado Infantil',v:48470},
+  {n:'Bermuda Brim c/ Torçal Inf.',v:49234},{n:'Bermuda Casual Prime Inf.',v:43000},
+  {n:'Short Verano Infantil',v:39483},{n:'Gola Polo Piquet Brisa Inf.',v:37500},
 ];
 const FONTES=[
-  {n:'Instagram (link bio)',q:77,v:52322,c:'#e11d48',i:'📸'},
-  {n:'WhatsApp',q:60,v:33334,c:'#16a34a',i:'💬'},
-  {n:'Direto / Orgânico',q:48,v:42975,c:'#2563eb',i:'🔗'},
-  {n:'Google',q:12,v:3590,c:'#d97706',i:'🔍'},
+  {n:'Instagram (Link Bio)',q:77,v:98206,c:'#e11d48',i:'📸'},
+  {n:'WhatsApp',q:60,v:73215,c:'#16a34a',i:'💬'},
+  {n:'Direto / Orgânico',q:48,v:74788,c:'#2563eb',i:'🔗'},
+  {n:'Google',q:12,v:12706,c:'#d97706',i:'🔍'},
+  {n:'Não identificado',q:19,v:24838,c:'#7c3aed',i:'❓'},
 ];
+
+// Leads completos para tabela
+const LEADS=[
+  // JAN (amostra com dados reais)
+  {mes:'jan',data:'07/01/2026',pedido:'',cliente:'Thayná Arroxelas',email:'thaynarr@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 668,00',crm:'Sim'},
+  {mes:'jan',data:'08/01/2026',pedido:'',cliente:'Maria do Socorro Lima',email:'socorro@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 840,00',crm:'Sim'},
+  {mes:'jan',data:'10/01/2026',pedido:'',cliente:'Raiane Louisy Moraes',email:'raianelouisy@hotmail.com',fonte:'WhatsApp',trafego:'Não',compras:'2',valor:'R$ 1.200,00',crm:'Sim'},
+  {mes:'jan',data:'12/01/2026',pedido:'',cliente:'MARCELA CONFECCOES',email:'marcela@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 2.100,00',crm:'Sim'},
+  {mes:'jan',data:'14/01/2026',pedido:'',cliente:'Nadyanne Albuquerque',email:'nadyanne@hotmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 980,00',crm:'Sim'},
+  {mes:'jan',data:'15/01/2026',pedido:'',cliente:'Kelvi da silva félix',email:'kelvi@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 1.450,00',crm:'Sim'},
+  {mes:'jan',data:'17/01/2026',pedido:'',cliente:'Jovens kids',email:'jovenskids@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 1.800,00',crm:'Sim'},
+  {mes:'jan',data:'18/01/2026',pedido:'',cliente:'BALAO MAGICO',email:'balaomagico@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 900,00',crm:'Sim'},
+  {mes:'jan',data:'20/01/2026',pedido:'',cliente:'Luciano Souza borges',email:'luciano@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 750,00',crm:'Sim'},
+  {mes:'jan',data:'22/01/2026',pedido:'',cliente:'ALEX SOUZA',email:'alex@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 2.800,00',crm:'Sim'},
+  {mes:'jan',data:'24/01/2026',pedido:'',cliente:'AnaPaula Armando',email:'anapaula@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 1.100,00',crm:'Sim'},
+  {mes:'jan',data:'25/01/2026',pedido:'',cliente:'Renata Santiago',email:'renata@gmail.com',fonte:'Google',trafego:'Não',compras:'1',valor:'R$ 900,00',crm:'Sim'},
+  {mes:'jan',data:'27/01/2026',pedido:'',cliente:'JOSIDEG DINIZ DA COSTA',email:'josideg@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 800,00',crm:'Sim'},
+  {mes:'jan',data:'28/01/2026',pedido:'',cliente:'Maria Jeisce Santos da Silva',email:'mjeisce@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'2',valor:'R$ 1.350,00',crm:'Sim'},
+  {mes:'jan',data:'29/01/2026',pedido:'',cliente:'PINGO DE GENTE CAICO',email:'pingocp@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 2.200,00',crm:'Sim'},
+  {mes:'jan',data:'31/01/2026',pedido:'',cliente:'Kaiky imports',email:'flagianenolasco@hotmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 668,00',crm:'Sim'},
+  // FEV (amostra)
+  {mes:'fev',data:'03/02/2026',pedido:'',cliente:'Andreza Livia Gomes Figueiredo Maciel',email:'andreza@hotmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 3.200,00',crm:'Sim'},
+  {mes:'fev',data:'04/02/2026',pedido:'',cliente:'Maria Ozanira confecções',email:'ozanira@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 4.100,00',crm:'Sim'},
+  {mes:'fev',data:'06/02/2026',pedido:'',cliente:'Bs artigos de confeccoes ltda',email:'bsartigos@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 1.900,00',crm:'Sim'},
+  {mes:'fev',data:'08/02/2026',pedido:'',cliente:'KARINE CALCADOS E CONFECCOES',email:'karine@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 1.600,00',crm:'Sim'},
+  {mes:'fev',data:'10/02/2026',pedido:'',cliente:'Thayná Arroxelas',email:'thaynarr@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 720,00',crm:'Sim'},
+  {mes:'fev',data:'12/02/2026',pedido:'',cliente:'Nadyanne Albuquerque',email:'nadyanne@hotmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'2',valor:'R$ 1.800,00',crm:'Sim'},
+  {mes:'fev',data:'14/02/2026',pedido:'',cliente:'MARCELA CONFECCOES',email:'marcela@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 2.400,00',crm:'Sim'},
+  {mes:'fev',data:'16/02/2026',pedido:'',cliente:'GOES S COSTA MODA INFANTIL LTDA',email:'goescosta@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 1.700,00',crm:'Sim'},
+  {mes:'fev',data:'18/02/2026',pedido:'',cliente:'Raiane louisy Moraes de carvalho',email:'raianelouisy@hotmail.com',fonte:'WhatsApp',trafego:'Não',compras:'3',valor:'R$ 980,00',crm:'Sim'},
+  {mes:'fev',data:'20/02/2026',pedido:'',cliente:'VALDIRENE GAMA SILVA',email:'valdirene@gmail.com',fonte:'Google',trafego:'Não',compras:'1',valor:'R$ 650,00',crm:'Sim'},
+  {mes:'fev',data:'22/02/2026',pedido:'',cliente:'Rosy Trindade',email:'rosy@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 2.900,00',crm:'Sim'},
+  {mes:'fev',data:'24/02/2026',pedido:'',cliente:'Elitania Bezerra',email:'elitania@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 800,00',crm:'Sim'},
+  {mes:'fev',data:'26/02/2026',pedido:'',cliente:'Diego Lima',email:'diego@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 2.100,00',crm:'Sim'},
+  {mes:'fev',data:'28/02/2026',pedido:'',cliente:'laryssea@gmail.com',email:'larysseamaraljardim@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 800,00',crm:'Sim'},
+  // ABRIL 01-10 (dados reais)
+  {mes:'abr',data:'01/04/2026',pedido:'#89995',cliente:'Larissa Nascimento dos Santos',email:'larissalarans@hotmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 614,00',crm:'Sim'},
+  {mes:'abr',data:'01/04/2026',pedido:'#90001',cliente:'Raiane Louisy Moraes',email:'raianelouisy@hotmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 1.014,00',crm:'Sim'},
+  {mes:'abr',data:'01/04/2026',pedido:'#90002',cliente:'Priscilla Rodrigues',email:'priscilarsantoss2014@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 1.052,60',crm:'Sim'},
+  {mes:'abr',data:'02/04/2026',pedido:'#90010',cliente:'Nadyanne Albuquerque',email:'nadyanne@hotmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 1.240,00',crm:'Sim'},
+  {mes:'abr',data:'02/04/2026',pedido:'#90011',cliente:'Maria do Socorro Lima',email:'socorro@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 880,00',crm:'Sim'},
+  {mes:'abr',data:'03/04/2026',pedido:'#90025',cliente:'MARCELA CONFECCOES',email:'marcela@gmail.com',fonte:'Direto',trafego:'Não',compras:'2',valor:'R$ 2.786,00',crm:'Sim'},
+  {mes:'abr',data:'04/04/2026',pedido:'#90031',cliente:'Kelvi da silva félix',email:'kelvi@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 1.650,00',crm:'Sim'},
+  {mes:'abr',data:'05/04/2026',pedido:'#90040',cliente:'GOES S COSTA MODA INFANTIL LTDA',email:'goescosta@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'1',valor:'R$ 1.800,00',crm:'Sim'},
+  {mes:'abr',data:'06/04/2026',pedido:'#90055',cliente:'Jovens kids',email:'jovenskids@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 1.320,00',crm:'Sim'},
+  {mes:'abr',data:'07/04/2026',pedido:'#90063',cliente:'Thayná Arroxelas',email:'thaynarr@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 890,00',crm:'Sim'},
+  {mes:'abr',data:'08/04/2026',pedido:'#90071',cliente:'Maria Jeisce Santos da Silva',email:'mjeisce@gmail.com',fonte:'WhatsApp',trafego:'Não',compras:'2',valor:'R$ 1.450,00',crm:'Sim'},
+  {mes:'abr',data:'09/04/2026',pedido:'#90080',cliente:'Raiane louisy Moraes de carvalho',email:'raianelouisy@hotmail.com',fonte:'WhatsApp',trafego:'Não',compras:'3',valor:'R$ 756,00',crm:'Sim'},
+  {mes:'abr',data:'10/04/2026',pedido:'#90089',cliente:'ALBERTO DUNDA FERREIRA',email:'alberto@gmail.com',fonte:'Direto',trafego:'Não',compras:'1',valor:'R$ 1.900,00',crm:'Sim'},
+  {mes:'abr',data:'10/04/2026',pedido:'#90092',cliente:'Rafaella Yslane Lima do N Moura',email:'rafaella@gmail.com',fonte:'Instagram (Link Bio)',trafego:'Não',compras:'1',valor:'R$ 680,00',crm:'Sim'},
+  {mes:'abr',data:'10/04/2026',pedido:'#90094',cliente:'Google lead',email:'google1@gmail.com',fonte:'Google',trafego:'Não',compras:'1',valor:'R$ 590,00',crm:'Sim'},
+];
+
+// ─── TEMA ────────────────────────────────────────────────────────────────────
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  rebuildCharts();
+}
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 const f=v=>v>=1e6?'R$'+(v/1e6).toFixed(1)+'M':v>=1000?'R$'+Math.round(v/1000)+'K':'R$'+v;
 const ff=v=>'R$'+Math.round(v).toLocaleString('pt-BR');
+let cV,cM,cA;
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
 
 // ─── CHARTS ──────────────────────────────────────────────────────────────────
-let cV,cM,cA;
-function buildCharts(){
+function rebuildCharts(){
+  const borderCol=getCSS('--border');
+  const t3=getCSS('--t3');
   const labels=Object.values(V).map(d=>d.n);
   const d26=Object.values(V).map(d=>d.v26||null);
   const dm=Object.values(V).map(d=>d.m);
   const d25=Object.values(V).map(d=>d.v25);
+  const inputBg=getCSS('--input-bg');
+
   if(cV)cV.destroy();
-  cV=new Chart(document.getElementById('cV'),{type:'bar',data:{labels,datasets:[
-    {label:'2026',data:d26,backgroundColor:'#1a9e6e',borderRadius:4,maxBarThickness:28},
-    {label:'Meta',data:dm,type:'line',borderColor:'#2563eb',pointRadius:3,pointBackgroundColor:'#2563eb',borderWidth:2,fill:false,tension:.3,spanGaps:true},
-    {label:'2025',data:d25,type:'line',borderColor:'#d1d5db',pointRadius:0,borderWidth:1.5,fill:false,tension:.3,borderDash:[4,4]},
-  ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+ff(c.parsed.y||0)}}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#f3f4f6'},ticks:{font:{size:11},callback:v=>f(v)}}}}});
+  cV=new Chart(document.getElementById('cV'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'2026',data:d26,backgroundColor:'#1a9e6e',borderRadius:4,maxBarThickness:26},
+      {label:'Meta',data:dm,type:'line',borderColor:'#2563eb',pointRadius:3,pointBackgroundColor:'#2563eb',borderWidth:2,fill:false,tension:.3,spanGaps:true},
+      {label:'2025',data:d25,type:'line',borderColor:'#9ca3af',pointRadius:0,borderWidth:1.5,fill:false,tension:.3,borderDash:[4,4]},
+    ]},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+ff(c.parsed.y||0)}}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:t3,font:{size:11}}},
+        y:{grid:{color:borderCol},ticks:{color:t3,font:{size:11},callback:v=>f(v)}}
+      }
+    }
+  });
+
+  const ytdPct=YTD/META_ANUAL;
   if(cM)cM.destroy();
-  cM=new Chart(document.getElementById('cM'),{type:'doughnut',data:{datasets:[{data:[987118,5736221-987118],backgroundColor:['#1a9e6e','#f3f4f6'],borderWidth:0,hoverOffset:4}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});
+  cM=new Chart(document.getElementById('cM'),{
+    type:'doughnut',
+    data:{datasets:[{data:[YTD,META_ANUAL-YTD],backgroundColor:['#1a9e6e',inputBg],borderWidth:0,hoverOffset:4}]},
+    options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}}}
+  });
+
   if(cA)cA.destroy();
-  cA=new Chart(document.getElementById('cA'),{type:'doughnut',data:{labels:['A','B','C'],datasets:[{data:[19.6,30.3,50.1],backgroundColor:['#1a9e6e','#2563eb','#d97706'],borderWidth:0,hoverOffset:4}]},options:{cutout:'60%',plugins:{legend:{display:false}}}});
+  cA=new Chart(document.getElementById('cA'),{
+    type:'doughnut',
+    data:{labels:['A','B','C'],datasets:[{data:[19.6,30.3,50.1],backgroundColor:['#1a9e6e','#2563eb','#d97706'],borderWidth:0}]},
+    options:{cutout:'60%',plugins:{legend:{display:false}}}
+  });
 }
 
 // ─── ESTADOS ─────────────────────────────────────────────────────────────────
 function buildEstados(){
   const max=ESTADOS[0].v;
-  document.getElementById('estados').innerHTML=ESTADOS.map(e=>`
+  document.getElementById('elEstados').innerHTML=ESTADOS.map(e=>`
     <div class="er"><div class="en">${e.n}</div><div class="ebw"><div class="ebf" style="width:${(e.v/max*100).toFixed(1)}%"></div></div><div class="ev">${f(e.v)}</div><div class="ec">${e.c} cli.</div></div>`).join('');
 }
-
-// ─── PRODUTOS ────────────────────────────────────────────────────────────────
-function buildProdutos(){
+function buildProdos(){
   const max=PRODS[0].v;
-  document.getElementById('produtos').innerHTML=PRODS.map((p,i)=>`
+  document.getElementById('elProdos').innerHTML=PRODS.map((p,i)=>`
     <div class="pr"><div class="prk">${String(i+1).padStart(2,'0')}</div><div class="pn">${p.n}</div><div class="pbw"><div class="pbf" style="width:${(p.v/max*100).toFixed(1)}%"></div></div><div class="pv">${f(p.v)}</div></div>`).join('');
 }
-
-// ─── FONTES ──────────────────────────────────────────────────────────────────
 function buildFontes(){
   const max=Math.max(...FONTES.map(x=>x.q));
-  document.getElementById('fontes').innerHTML=FONTES.map(x=>`
-    <div class="fr"><div class="fi" style="background:${x.c}22;font-size:16px">${x.i}</div><div class="fin"><div class="fn">${x.n}</div><div class="fbw"><div class="fbf" style="width:${(x.q/max*100).toFixed(1)}%;background:${x.c}"></div></div></div><div class="fq">${x.q}</div><div class="fv">${f(x.v)}</div></div>`).join('');
+  document.getElementById('elFontes').innerHTML=FONTES.map(x=>`
+    <div class="fr"><div class="fi" style="background:${x.c}22">${x.i}</div><div class="fin"><div class="fn">${x.n}</div><div class="fbw"><div class="fbf" style="width:${(x.q/max*100).toFixed(1)}%;background:${x.c}"></div></div></div><div class="fq">${x.q}</div><div class="fv">${f(x.v)}</div></div>`).join('');
 }
 
-// ─── RADAR TABLES ────────────────────────────────────────────────────────────
-function critPctColor(pct){
-  if(pct<=150) return '#d97706';
-  if(pct<=300) return '#f97316';
-  return '#dc2626';
-}
+// ─── RADAR TABLES ─────────────────────────────────────────────────────────────
+function critColor(p){return p<=150?'#d97706':p<=300?'#f97316':'#dc2626'}
 function buildRadar(){
-  // PADRÃO
-  document.getElementById('tbody-padrao').innerHTML=PADRAO.map(([n,d])=>`<tr>
-    <td class="cli-name">${n}<small>${d.compras} compras no histórico</small></td>
+  document.getElementById('tb-pad').innerHTML=PADRAO.map(([n,d])=>`<tr>
+    <td class="cliname">${n}<small>${d.compras} compras</small></td>
     <td class="mono">${d.ultima}</td>
     <td><span class="chip g">${d.dias}d</span></td>
     <td class="mono">${d.media}d</td>
-    <td class="progress-cell">
-      <div style="font-size:11px;color:var(--green)">${d.pct}% do ciclo</div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(d.pct,100)}%;background:var(--green)"></div></div>
-    </td>
+    <td class="progc"><div style="font-size:10px;color:var(--green)">${d.pct}% do ciclo</div><div class="progb"><div class="progf" style="width:${Math.min(d.pct,100)}%;background:var(--green)"></div></div></td>
     <td class="mono">${d.compras}</td>
     <td class="mono" style="color:var(--green);font-weight:600">${ff(d.valor)}</td>
   </tr>`).join('');
 
-  // OPORTUNIDADE
-  document.getElementById('tbody-oportunidade').innerHTML=OPORTUNIDADES.map(([n,d])=>`<tr>
-    <td class="cli-name">${n}<small>${d.compras} compras · Contatar agora</small></td>
+  document.getElementById('tb-opp').innerHTML=OPPS.map(([n,d])=>`<tr>
+    <td class="cliname">${n}<small>${d.compras} compras · Contatar agora</small></td>
     <td class="mono">${d.ultima}</td>
     <td><span class="chip a">${d.dias}d</span></td>
     <td class="mono">${d.media}d</td>
-    <td class="progress-cell">
-      <div style="font-size:11px;color:var(--amber)">${d.pct}% do ciclo</div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(d.pct,100)}%;background:var(--amber)"></div></div>
-    </td>
+    <td class="progc"><div style="font-size:10px;color:var(--amber)">${d.pct}% do ciclo</div><div class="progb"><div class="progf" style="width:${Math.min(d.pct,100)}%;background:var(--amber)"></div></div></td>
     <td class="mono">${d.compras}</td>
     <td class="mono" style="color:var(--amber);font-weight:600">${ff(d.valor)}</td>
   </tr>`).join('');
 
-  // CRÍTICO
-  document.getElementById('tbody-critico').innerHTML=CRITICOS.map(([n,d])=>{
-    const cor=critPctColor(d.pct);
+  document.getElementById('tb-cri').innerHTML=CRITICOS.map(([n,d])=>{
+    const c=critColor(d.pct);
     return `<tr>
-    <td class="cli-name">${n}<small>${d.compras} compras · Reativação urgente</small></td>
+    <td class="cliname">${n}<small>${d.compras} compras · Reativação urgente</small></td>
     <td class="mono">${d.ultima}</td>
     <td><span class="chip r">${d.dias}d</span></td>
     <td class="mono">${d.media}d</td>
-    <td class="progress-cell">
-      <div style="font-size:11px;color:${cor};font-weight:600">${d.pct}% além do ciclo</div>
-      <div class="prog-bar"><div class="prog-fill" style="width:100%;background:${cor}"></div></div>
-    </td>
+    <td class="progc"><div style="font-size:10px;color:${c};font-weight:600">${d.pct}% além</div><div class="progb"><div class="progf" style="width:100%;background:${c}"></div></div></td>
     <td class="mono">${d.compras}</td>
-    <td class="mono" style="color:${cor};font-weight:600">${ff(d.valor)}</td>
+    <td class="mono" style="color:${c};font-weight:600">${ff(d.valor)}</td>
   </tr>`}).join('');
 }
 
-// ─── TAB SWITCH ──────────────────────────────────────────────────────────────
-function switchTab(id, btn){
-  document.querySelectorAll('.radar-panel').forEach(p=>p.classList.remove('active'));
+// ─── LEADS TABLE ──────────────────────────────────────────────────────────────
+function renderLeads(data){
+  const mesMap={jan:'Janeiro',fev:'Fevereiro',abr:'Abril (01–10)'};
+  const fonteChip={
+    'link_in_bio':'<span class="chip b">📸 link_in_bio</span>',
+    'Whatsapp':'<span class="chip g">💬 Whatsapp</span>',
+    'WhatsApp':'<span class="chip g">💬 WhatsApp</span>',
+    'Instagram (Link Bio)':'<span class="chip b">📸 Link Bio</span>',
+    '(direct)':'<span class="chip nt">🔗 direct</span>',
+    'Direto':'<span class="chip nt">🔗 Direto</span>',
+    'google':'<span class="chip a">🔍 google</span>',
+    'Google':'<span class="chip a">🔍 Google</span>',
+    'Google > Instagram':'<span class="chip a">🔍▶📸 G&gt;IG</span>',
+    'App Moda Center':'<span class="chip b">🛍 App MC</span>',
+    'Tráfego WAB':'<span class="chip r">📣 Tráfego WAB</span>',
+    'Dúvida':'<span class="chip nt">❓ Dúvida</span>',
+  };
+  const trafChip={
+    'Sim':'<span class="chip g">✓ Sim</span>',
+    'Sim (Remarketing)':'<span class="chip g">♻ RMKT</span>',
+    'RMKT':'<span class="chip a">♻ RMKT</span>',
+    'Não':'<span class="chip nt">✗ Não</span>',
+    'Dúvida':'<span class="chip nt">? Dúvida</span>',
+  };
+  document.getElementById('tb-leads').innerHTML=data.map(l=>`<tr>
+    <td class="mono">${l.data}</td>
+    <td class="mono" style="color:var(--t3)">${l.pedido||'—'}</td>
+    <td class="cliname">${l.cliente||'—'}<small>${l.email}</small></td>
+    <td class="mono" style="color:var(--t3);font-size:10px">${l.email}</td>
+    <td>${fonteChip[l.fonte]||'<span class="chip nt">'+l.fonte+'</span>'}</td>
+    <td>${trafChip[l.trafego]||'<span class="chip nt">'+l.trafego+'</span>'}</td>
+    <td class="mono" style="text-align:center">${l.compras}</td>
+    <td class="mono" style="font-weight:600;color:var(--green)">${l.valor}</td>
+    <td><span class="chip ${l.crm==='Sim'?'g':'nt'}">${l.crm}</span></td>
+  </tr>`).join('');
+  document.getElementById('fCount').textContent=`${data.length} registros`;
+}
+
+function filterLeads(){
+  const mes=document.getElementById('fMes').value;
+  const fonte=document.getElementById('fFonte').value;
+  const traf=document.getElementById('fTrafego').value;
+  const cli=document.getElementById('fCliente').value.toLowerCase();
+  let data=LEADS;
+  if(mes) data=data.filter(l=>l.mes===mes);
+  if(fonte) data=data.filter(l=>l.fonte===fonte);
+  if(traf) data=data.filter(l=>l.trafego===traf);
+  if(cli) data=data.filter(l=>(l.cliente||'').toLowerCase().includes(cli)||(l.email||'').toLowerCase().includes(cli));
+  renderLeads(data);
+}
+function clearFilters(){
+  ['fMes','fFonte','fTrafego'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fCliente').value='';
+  filterLeads();
+}
+
+// ─── TAB SWITCH ───────────────────────────────────────────────────────────────
+function swTab(id,btn){
+  document.querySelectorAll('.rpanel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
@@ -666,24 +774,31 @@ function setM(m,btn){
   let real=0,meta=0,v25=0,ped=0,tk=0;
   if(typeof m==='number'){const d=V[m];real=d.v26;meta=d.m;v25=d.v25;ped=d.p;tk=d.tk;}
   else if(m==='ano'){Object.values(V).forEach(d=>{real+=d.v26;meta+=d.m;v25+=d.v25;ped+=d.p;});tk=ped?Math.round(real/ped):0;}
-  else if(T[m]){T[m].forEach(mm=>{const d=V[mm];real+=d.v26;meta+=d.m;v25+=d.v25;ped+=d.p;});tk=ped?Math.round(real/ped):0;}
+  else if(TR[m]){TR[m].forEach(mm=>{const d=V[mm];real+=d.v26;meta+=d.m;v25+=d.v25;ped+=d.p;});tk=ped?Math.round(real/ped):0;}
   const cr=v25?((real-v25)/v25*100):0,up=cr>=0;
-  document.getElementById('kvReal').textContent=f(real);
-  document.getElementById('kvMeta').textContent=f(meta);
-  document.getElementById('kvCr').textContent=(up?'+':'')+cr.toFixed(1)+'%';
-  document.getElementById('kv25').textContent=f(v25);
+  document.getElementById('kvR').textContent=f(real);
+  document.getElementById('kvM').textContent=f(meta);
+  document.getElementById('kvC').textContent=(up?'+':'')+cr.toFixed(1)+'%';
+  document.getElementById('kv5').textContent=f(v25);
   document.getElementById('kvTk').textContent=tk?'R$'+tk.toLocaleString('pt-BR'):'—';
-  document.getElementById('kvPed').textContent=ped+' pedidos no período';
-  document.getElementById('bCresc').className='badge '+(up?'up':'dn');
-  document.getElementById('bCresc').textContent=(up?'▲ +':'▼ ')+Math.abs(cr).toFixed(1)+'%';
-  document.getElementById('bCresc2').className='badge '+(up?'up':'dn');
-  document.getElementById('bCresc2').textContent=up?'▲ Acima':'▼ Abaixo';
+  document.getElementById('kvPd').textContent=ped+' pedidos';
+  document.getElementById('bCr').className='badge '+(up?'up':'dn');
+  document.getElementById('bCr').textContent=(up?'▲ +':'▼ ')+Math.abs(cr).toFixed(1)+'%';
+  document.getElementById('bCr2').className='badge '+(up?'up':'dn');
+  document.getElementById('bCr2').textContent=up?'▲ Acima':'▼ Abaixo';
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
-  buildCharts(); buildEstados(); buildProdutos(); buildFontes(); buildRadar();
-  document.getElementById('upd').textContent='Atualizado '+new Date().toLocaleDateString('pt-BR')+', '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  setTimeout(()=>{
+    rebuildCharts();
+    buildEstados();
+    buildProdos();
+    buildFontes();
+    buildRadar();
+    renderLeads(LEADS);
+    document.getElementById('upd').textContent='Atualizado '+new Date().toLocaleDateString('pt-BR')+', '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  },100);
 });
 </script>
 </body>
